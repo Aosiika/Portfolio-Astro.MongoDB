@@ -75,3 +75,10 @@ config.ts
 *.tmp
 *.bak
 *.swp
+
+# Archivos comprimidos
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
