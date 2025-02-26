@@ -2,6 +2,14 @@
 
 Este proyecto es un portfolio personal moderno y dinámico construido con Astro en el frontend y MongoDB en el backend. Incluye un panel de administración para gestionar el contenido, modo mantenimiento, y más características.
 
+## Vista previa
+
+### Panel de Administración
+![Panel de Administración](https://github.com/Aosiika/Portfolio-Astro.MongoDB/raw/main/public/screenshots/admin-panel.png)
+
+### Página Principal
+![Página Principal](https://github.com/Aosiika/Portfolio-Astro.MongoDB/raw/main/public/screenshots/home-page.png)
+
 ## Características
 
 - 🚀 **Frontend con Astro**: Rápido y optimizado para SEO
