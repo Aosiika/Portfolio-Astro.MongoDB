@@ -25,12 +25,12 @@ app.use(cors({
   origin: true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Cache-Control']
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Cache-Control', 'Pragma', 'Origin', 'X-Requested-With']
 }));
 
 // Headers adicionales
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Cache-Control');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Cache-Control, Pragma, Origin, X-Requested-With');
   res.header('Access-Control-Allow-Credentials', 'true');
   next();
 });
@@ -102,7 +102,7 @@ app.use((err, req, res, next) => {
 });
 
 // Iniciar servidor
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
   console.log(`Test URL: http://localhost:${PORT}/test`);

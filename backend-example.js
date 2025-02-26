@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5000;
 
 // Configuración de CORS
 app.use(cors({
-  origin: 'http://localhost:4321', // Origen de tu frontend Astro
+  origin: ['http://localhost:4321', 'http://localhost:4322'], // Permitir ambos puertos
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true // Importante para cookies/autenticación

@@ -1,6 +1,6 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
-import { API_URL, getApiUrl } from '../../api/config';
+import { API_URL } from '../../api/config';
 
 interface ConfiguracionSitio {
   siteName: string;
@@ -71,41 +71,56 @@ interface ConfiguracionSitio {
         </div>
         <div class="grid gap-6 md:grid-cols-2">
           <div>
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">Nombre del Sitio</span>
-              <input
-                type="text"
-                id="siteName"
-                name="siteName"
-                class="block w-full mt-1 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300 transition-colors duration-200"
-                placeholder="Mi Portfolio Profesional"
-                value="Portfolio de Aosika"
-              />
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Nombre del Sitio</span>
+              <div class="relative mt-2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fas fa-globe"></i>
+                </div>
+                <input
+                  type="text"
+                  id="siteName"
+                  name="siteName"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="Mi Portfolio Profesional"
+                  value="Portfolio de Aosika"
+                />
+              </div>
             </label>
           </div>
           <div>
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">Título del Navbar</span>
-              <input
-                type="text"
-                id="navbarTitle"
-                name="navbarTitle"
-                class="block w-full mt-1 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300 transition-colors duration-200"
-                placeholder="Portfolio"
-                value="Aosika Dev"
-              />
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Título del Navbar</span>
+              <div class="relative mt-2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fas fa-heading"></i>
+                </div>
+                <input
+                  type="text"
+                  id="navbarTitle"
+                  name="navbarTitle"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="Portfolio"
+                  value="Aosika Dev"
+                />
+              </div>
             </label>
           </div>
           <div class="md:col-span-2">
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">Descripción del Sitio</span>
-              <textarea
-                id="siteDescription"
-                name="siteDescription"
-                rows="3"
-                class="block w-full mt-1 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300 transition-colors duration-200"
-                placeholder="Descripción de tu portfolio..."
-              >Portfolio profesional de Aosika, desarrollador Full Stack especializado en crear soluciones web modernas y atractivas.</textarea>
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Descripción del Sitio</span>
+              <div class="relative mt-2">
+                <div class="absolute top-3 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fas fa-align-left"></i>
+                </div>
+                <textarea
+                  id="siteDescription"
+                  name="siteDescription"
+                  rows="3"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="Descripción de tu portfolio..."
+                >Portfolio profesional de Aosika, desarrollador Full Stack especializado en crear soluciones web modernas y atractivas.</textarea>
+              </div>
             </label>
           </div>
         </div>
@@ -123,94 +138,129 @@ interface ConfiguracionSitio {
             Información Personal
           </h3>
         </div>
-        <div class="grid gap-4 md:grid-cols-2">
+        <div class="grid gap-6 md:grid-cols-2">
           <div>
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">Nombre del Desarrollador</span>
-              <input
-                type="text"
-                id="developerName"
-                name="developerName"
-                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
-                placeholder="Tu Nombre"
-                value="Aosika"
-              />
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Nombre del Desarrollador</span>
+              <div class="relative mt-2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fas fa-user"></i>
+                </div>
+                <input
+                  type="text"
+                  id="developerName"
+                  name="developerName"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="Tu Nombre"
+                  value="Aosika"
+                />
+              </div>
             </label>
           </div>
           <div>
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">Título Profesional</span>
-              <input
-                type="text"
-                id="developerTitle"
-                name="developerTitle"
-                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
-                placeholder="Desarrollador Full Stack"
-                value="Desarrollador Full Stack & Diseñador UI/UX"
-              />
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Título Profesional</span>
+              <div class="relative mt-2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fas fa-briefcase"></i>
+                </div>
+                <input
+                  type="text"
+                  id="developerTitle"
+                  name="developerTitle"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="Desarrollador Full Stack"
+                  value="Desarrollador Full Stack & Diseñador UI/UX"
+                />
+              </div>
             </label>
           </div>
           <div class="md:col-span-2">
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">Bio Corta</span>
-              <input
-                type="text"
-                id="developerBio"
-                name="developerBio"
-                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
-                placeholder="Desarrollador Full Stack y Creador de Contenido"
-                value="Desarrollador Full Stack apasionado por crear experiencias web innovadoras y atractivas"
-              />
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Bio Corta</span>
+              <div class="relative mt-2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fas fa-id-card"></i>
+                </div>
+                <input
+                  type="text"
+                  id="developerBio"
+                  name="developerBio"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="Desarrollador Full Stack y Creador de Contenido"
+                  value="Desarrollador Full Stack apasionado por crear experiencias web innovadoras y atractivas"
+                />
+              </div>
             </label>
           </div>
           <div class="md:col-span-2">
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">Descripción Sobre Mí</span>
-              <textarea
-                id="aboutMeDescription"
-                name="aboutMeDescription"
-                rows="4"
-                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
-                placeholder="Soy un desarrollador Full Stack apasionado por crear soluciones web innovadoras y contenido digital de calidad. Con experiencia en el desarrollo de aplicaciones web modernas y la creación de contenido audiovisual, combino mis habilidades técnicas con mi creatividad para ofrecer experiencias únicas y valiosas."
-              >Soy Aosika, un desarrollador Full Stack apasionado por crear soluciones web innovadoras y contenido digital de calidad. Con experiencia en el desarrollo de aplicaciones web modernas y la creación de contenido audiovisual, combino mis habilidades técnicas con mi creatividad para ofrecer experiencias únicas y valiosas.</textarea>
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Descripción Sobre Mí</span>
+              <div class="relative mt-2">
+                <div class="absolute top-3 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fas fa-file-alt"></i>
+                </div>
+                <textarea
+                  id="aboutMeDescription"
+                  name="aboutMeDescription"
+                  rows="4"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="Soy un desarrollador Full Stack apasionado por crear soluciones web innovadoras y contenido digital de calidad. Con experiencia en el desarrollo de aplicaciones web modernas y la creación de contenido audiovisual, combino mis habilidades técnicas con mi creatividad para ofrecer experiencias únicas y valiosas."
+                >Soy Aosika, un desarrollador Full Stack apasionado por crear soluciones web innovadoras y contenido digital de calidad. Con experiencia en el desarrollo de aplicaciones web modernas y la creación de contenido audiovisual, combino mis habilidades técnicas con mi creatividad para ofrecer experiencias únicas y valiosas.</textarea>
+              </div>
             </label>
           </div>
           <div class="md:col-span-2">
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">Segundo Párrafo Sobre Mí</span>
-              <textarea
-                id="aboutMeSecondParagraph"
-                name="aboutMeSecondParagraph"
-                rows="3"
-                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
-                placeholder="Mi objetivo es crear productos digitales que no solo funcionen perfectamente, sino que también inspiren y eduquen a otros. A través de mi contenido, comparto conocimientos y experiencias en desarrollo web, diseño gráfico y producción audiovisual."
-              >Mi objetivo es crear productos digitales que no solo funcionen perfectamente, sino que también inspiren y eduquen a otros. A través de mi trabajo, comparto conocimientos y experiencias en desarrollo web, diseño de interfaces y optimización de rendimiento.</textarea>
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Segundo Párrafo Sobre Mí</span>
+              <div class="relative mt-2">
+                <div class="absolute top-3 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fas fa-file-alt"></i>
+                </div>
+                <textarea
+                  id="aboutMeSecondParagraph"
+                  name="aboutMeSecondParagraph"
+                  rows="3"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="Mi objetivo es crear productos digitales que no solo funcionen perfectamente, sino que también inspiren y eduquen a otros. A través de mi contenido, comparto conocimientos y experiencias en desarrollo web, diseño gráfico y producción audiovisual."
+                >Mi objetivo es crear productos digitales que no solo funcionen perfectamente, sino que también inspiren y eduquen a otros. A través de mi trabajo, comparto conocimientos y experiencias en desarrollo web, diseño de interfaces y optimización de rendimiento.</textarea>
+              </div>
             </label>
           </div>
           <div>
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">URL de la Imagen de Perfil</span>
-              <input
-                type="text"
-                id="profileImage"
-                name="profileImage"
-                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
-                placeholder="https://ejemplo.com/imagen.jpg"
-                value="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-              />
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">URL de la Imagen de Perfil</span>
+              <div class="relative mt-2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fas fa-image"></i>
+                </div>
+                <input
+                  type="text"
+                  id="profileImage"
+                  name="profileImage"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="https://ejemplo.com/imagen.jpg"
+                  value="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                />
+              </div>
             </label>
           </div>
           <div>
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">Enlace al CV</span>
-              <input
-                type="text"
-                id="cvLink"
-                name="cvLink"
-                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
-                placeholder="https://ejemplo.com/cv.pdf"
-                value="https://aosika-portfolio.com/cv.pdf"
-              />
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Enlace al CV</span>
+              <div class="relative mt-2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fas fa-file-pdf"></i>
+                </div>
+                <input
+                  type="text"
+                  id="cvLink"
+                  name="cvLink"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="https://ejemplo.com/cv.pdf"
+                  value="https://aosika-portfolio.com/cv.pdf"
+                />
+              </div>
             </label>
           </div>
         </div>
@@ -228,70 +278,95 @@ interface ConfiguracionSitio {
             Información de Contacto y Redes Sociales
           </h3>
         </div>
-        <div class="grid gap-4 md:grid-cols-2">
+        <div class="grid gap-6 md:grid-cols-2">
           <div>
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">Email de Contacto</span>
-              <input
-                type="email"
-                id="emailContacto"
-                name="emailContacto"
-                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
-                placeholder="tu@email.com"
-                value="contacto@aosika.dev"
-              />
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Email de Contacto</span>
+              <div class="relative mt-2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <input
+                  type="email"
+                  id="contactEmail"
+                  name="contactEmail"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="tu@email.com"
+                  value="contacto@aosika.dev"
+                />
+              </div>
             </label>
           </div>
           <div>
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">Email para Notificaciones</span>
-              <input
-                type="email"
-                id="emailNotificaciones"
-                name="emailNotificaciones"
-                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
-                placeholder="notificaciones@email.com"
-                value="notificaciones@aosika.dev"
-              />
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Email para Notificaciones</span>
+              <div class="relative mt-2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fas fa-bell"></i>
+                </div>
+                <input
+                  type="email"
+                  id="notificationEmail"
+                  name="notificationEmail"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="notificaciones@email.com"
+                  value="notificaciones@aosika.dev"
+                />
+              </div>
             </label>
           </div>
           <div>
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">URL de GitHub</span>
-              <input
-                type="text"
-                id="githubUrl"
-                name="githubUrl"
-                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
-                placeholder="https://github.com/tuusuario"
-                value="https://github.com/aosika"
-              />
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">URL de GitHub</span>
+              <div class="relative mt-2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fab fa-github"></i>
+                </div>
+                <input
+                  type="text"
+                  id="githubUrl"
+                  name="githubUrl"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="https://github.com/tuusuario"
+                  value="https://github.com/aosika"
+                />
+              </div>
             </label>
           </div>
           <div>
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">URL de YouTube</span>
-              <input
-                type="text"
-                id="youtubeUrl"
-                name="youtubeUrl"
-                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
-                placeholder="https://youtube.com/@tucanal"
-                value="https://youtube.com/@aosika_dev"
-              />
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">URL de YouTube</span>
+              <div class="relative mt-2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fab fa-youtube"></i>
+                </div>
+                <input
+                  type="text"
+                  id="youtubeUrl"
+                  name="youtubeUrl"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="https://youtube.com/@tucanal"
+                  value="https://youtube.com/@aosika_dev"
+                />
+              </div>
             </label>
           </div>
           <div>
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">URL de X (Twitter)</span>
-              <input
-                type="text"
-                id="twitterUrl"
-                name="twitterUrl"
-                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
-                placeholder="https://x.com/tuusuario"
-                value="https://x.com/aosika_dev"
-              />
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">URL de X (Twitter)</span>
+              <div class="relative mt-2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fab fa-twitter"></i>
+                </div>
+                <input
+                  type="text"
+                  id="twitterUrl"
+                  name="twitterUrl"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="https://x.com/tuusuario"
+                  value="https://x.com/aosika_dev"
+                />
+              </div>
             </label>
           </div>
         </div>
@@ -310,16 +385,21 @@ interface ConfiguracionSitio {
           </h3>
         </div>
         <div>
-          <label class="block text-sm mb-2">
-            <span class="text-gray-700 dark:text-gray-400">Habilidades</span>
-            <input
-              type="text"
-              id="skills"
-              name="skills"
-              class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
-              placeholder="Desarrollo Full Stack, React, Node.js, TypeScript, Astro, TailwindCSS, Creación de Contenido, Edición Audiovisual, Diseño Gráfico, Adobe Photoshop"
-              value="Desarrollo Full Stack, React, Node.js, TypeScript, Astro, TailwindCSS, Diseño UI/UX, Optimización Web, MongoDB, PostgreSQL"
-            />
+          <label class="block mb-2">
+            <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Habilidades</span>
+            <div class="relative mt-2">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                <i class="fas fa-code"></i>
+              </div>
+              <input
+                type="text"
+                id="skills"
+                name="skills"
+                class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                placeholder="Desarrollo Full Stack, React, Node.js, TypeScript, Astro, TailwindCSS, Creación de Contenido, Edición Audiovisual, Diseño Gráfico, Adobe Photoshop"
+                value="Desarrollo Full Stack, React, Node.js, TypeScript, Astro, TailwindCSS, Diseño UI/UX, Optimización Web, MongoDB, PostgreSQL"
+              />
+            </div>
           </label>
         </div>
       </div>
@@ -329,327 +409,302 @@ interface ConfiguracionSitio {
         <div class="flex items-center mb-6">
           <div class="p-3 rounded-full bg-gradient-to-br from-red-400 to-red-600 mr-4 shadow-md">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
           </div>
           <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
             Modo Mantenimiento
           </h3>
         </div>
-        <div class="grid gap-6">
-          <div class="flex items-center">
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input 
-                type="checkbox" 
-                id="modoMantenimiento"
-                name="modoMantenimiento"
-                class="sr-only peer"
-              >
-              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-gradient-to-r from-blue-500 to-purple-600"></div>
-              <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">Activar modo mantenimiento</span>
-            </label>
-          </div>
+        <div class="grid gap-6 md:grid-cols-2">
           <div>
-            <label class="block text-sm mb-2">
-              <span class="text-gray-700 dark:text-gray-400">Mensaje de mantenimiento</span>
-              <textarea
-                id="mensajeMantenimiento"
-                name="mensajeMantenimiento"
-                rows="3"
-                class="block w-full mt-1 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300 transition-colors duration-200"
-                placeholder="El sitio está en mantenimiento. Volveremos pronto..."
-              >Estamos realizando mejoras en el sitio. Por favor, vuelve más tarde.</textarea>
+            <label class="flex items-center mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium mr-3">Activar Modo Mantenimiento</span>
+              <div class="relative inline-block w-12 align-middle select-none transition duration-200 ease-in">
+                <input 
+                  type="checkbox" 
+                  id="modoMantenimiento" 
+                  name="modoMantenimiento" 
+                  class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-300"
+                />
+                <label 
+                  for="modoMantenimiento" 
+                  class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer"
+                ></label>
+              </div>
             </label>
           </div>
-          <div class="grid gap-4 md:grid-cols-2">
-            <div>
-              <label class="block text-sm mb-2">
-                <span class="text-gray-700 dark:text-gray-400">Color Primario</span>
-                <input
-                  type="color"
-                  id="colorPrimario"
-                  name="colorPrimario"
-                  class="block w-full h-10 mt-1 rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700"
-                  value="#3B82F6"
-                />
-              </label>
-            </div>
-            <div>
-              <label class="block text-sm mb-2">
-                <span class="text-gray-700 dark:text-gray-400">Color Secundario</span>
-                <input
-                  type="color"
-                  id="colorSecundario"
-                  name="colorSecundario"
-                  class="block w-full h-10 mt-1 rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700"
-                  value="#8B5CF6"
-                />
-              </label>
-            </div>
+          <div class="md:col-span-2">
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Mensaje de Mantenimiento</span>
+              <div class="relative mt-2">
+                <div class="absolute top-3 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                  <i class="fas fa-tools"></i>
+                </div>
+                <textarea
+                  id="mensajeMantenimiento"
+                  name="mensajeMantenimiento"
+                  rows="3"
+                  class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                  placeholder="Estamos realizando mejoras en nuestro sitio. Volveremos pronto."
+                >Estamos realizando mejoras en nuestro sitio para ofrecerte una mejor experiencia. Volveremos pronto con nuevas funcionalidades y un diseño mejorado.</textarea>
+              </div>
+            </label>
           </div>
         </div>
       </div>
 
-      <!-- Botones de acción -->
-      <div class="flex justify-end gap-4">
+      <!-- Colores -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card border-l-4 border-yellow-500">
+        <div class="flex items-center mb-6">
+          <div class="p-3 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 mr-4 shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
+            Colores
+          </h3>
+        </div>
+        <div class="grid gap-6 md:grid-cols-2">
+          <div>
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Color Primario</span>
+              <div class="flex items-center mt-2 space-x-3">
+                <div class="relative flex-1">
+                  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                    <i class="fas fa-palette"></i>
+                  </div>
+                  <input
+                    type="text"
+                    id="colorPrimario"
+                    name="colorPrimario"
+                    class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                    placeholder="#3B82F6"
+                    value="#3B82F6"
+                  />
+                </div>
+                <input
+                  type="color"
+                  id="colorPrimarioPicker"
+                  class="h-10 w-10 rounded-lg cursor-pointer border-2 border-gray-300 dark:border-gray-600"
+                  value="#3B82F6"
+                />
+              </div>
+            </label>
+          </div>
+          <div>
+            <label class="block mb-2">
+              <span class="text-gray-700 dark:text-gray-400 text-base font-medium">Color Secundario</span>
+              <div class="flex items-center mt-2 space-x-3">
+                <div class="relative flex-1">
+                  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 dark:text-gray-500">
+                    <i class="fas fa-palette"></i>
+                  </div>
+                  <input
+                    type="text"
+                    id="colorSecundario"
+                    name="colorSecundario"
+                    class="block w-full pl-10 pr-3 py-3 text-base rounded-lg border-b-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-blue-500 focus:outline-none dark:text-gray-300 transition-all duration-300"
+                    placeholder="#8B5CF6"
+                    value="#8B5CF6"
+                  />
+                </div>
+                <input
+                  type="color"
+                  id="colorSecundarioPicker"
+                  class="h-10 w-10 rounded-lg cursor-pointer border-2 border-gray-300 dark:border-gray-600"
+                  value="#8B5CF6"
+                />
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="flex justify-end space-x-4 mt-8">
+        <button
+          type="button"
+          id="resetBtn"
+          class="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 flex items-center"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+          </svg>
+          Restablecer
+        </button>
         <button
           type="submit"
-          class="px-6 py-3 text-sm font-medium leading-5 text-white transition-all duration-300 bg-gradient-to-r from-blue-500 to-purple-600 border border-transparent rounded-lg active:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:shadow-outline-blue flex items-center"
+          id="saveBtn"
+          class="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 flex items-center"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>
           Guardar Cambios
         </button>
       </div>
     </form>
   </div>
-</AdminLayout>
 
-<script>
-  import { API_URL, getApiUrl } from '../../api/config';
-
-  interface ConfiguracionSitio {
-    siteName: string;
-    siteDescription: string;
-    navbarTitle: string;
-    emailContacto: string;
-    emailNotificaciones: string;
-    modoMantenimiento: boolean;
-    mensajeMantenimiento: string;
-    colorPrimario: string;
-    colorSecundario: string;
-    developerName?: string;
-    developerTitle?: string;
-    developerBio?: string;
-    aboutMeDescription?: string;
-    aboutMeSecondParagraph?: string;
-    profileImage?: string;
-    cvLink?: string;
-    githubUrl?: string;
-    youtubeUrl?: string;
-    twitterUrl?: string;
-    skills?: string;
-  }
-
-  // Función para mostrar notificaciones
-  function showNotification(success: boolean, message: string) {
-    const notification = document.getElementById('notification');
-    const notificationMessage = document.getElementById('notification-message');
+  <style>
+    .hover-card {
+      transition: all 0.3s ease;
+    }
+    .hover-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
     
-    if (notification && notificationMessage) {
-      notification.classList.remove('hidden', 'bg-green-100', 'bg-red-100');
-      notification.classList.add(success ? 'bg-green-100' : 'bg-red-100');
-      notificationMessage.textContent = message;
-      
-      setTimeout(() => {
-        notification.classList.add('hidden');
-      }, 3000);
+    /* Toggle Switch */
+    .toggle-checkbox:checked {
+      transform: translateX(100%);
+      border-color: #3B82F6;
     }
-  }
-
-  // Función para guardar la configuración completa
-  async function saveConfig(config: Partial<ConfiguracionSitio>) {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No hay token de autenticación');
-      window.location.href = '/admin/login';
-      return false;
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: #3B82F6;
     }
+  </style>
 
-    try {
-      console.log('Guardando configuración:', config);
+  <script define:vars={{ API_URL }}>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const configForm = document.getElementById('configForm');
+      const notification = document.getElementById('notification');
+      const notificationMessage = document.getElementById('notification-message');
+      const saveBtn = document.getElementById('saveBtn');
+      const resetBtn = document.getElementById('resetBtn');
       
-      // Asegurarse de que skills sea un string y no un array u otro tipo
-      if (config.skills !== undefined) {
-        if (typeof config.skills !== 'string') {
-          console.log('Convirtiendo skills a string:', config.skills);
-          config.skills = String(config.skills);
-        }
-        // Eliminar cualquier propiedad map que pudiera haberse añadido
-        if ((config.skills as any).map) {
-          console.log('Eliminando propiedad map de skills');
-          const skillsStr = String(config.skills);
-          delete (config as any).skills;
-          config.skills = skillsStr;
-        }
-      }
+      // Obtener elementos de color
+      const colorPrimario = document.getElementById('colorPrimario');
+      const colorSecundario = document.getElementById('colorSecundario');
+      const colorPrimarioPicker = document.getElementById('colorPrimarioPicker');
+      const colorSecundarioPicker = document.getElementById('colorSecundarioPicker');
       
-      const apiUrl = getApiUrl('config');
-      console.log('URL de la API:', apiUrl);
-      console.log('Configuración procesada para enviar:', JSON.stringify(config));
-      
-      const response = await fetch(apiUrl, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache'
-        },
-        body: JSON.stringify(config)
-      });
-
-      console.log('Respuesta recibida:', {
-        status: response.status,
-        statusText: response.statusText,
-        headers: Object.fromEntries([...response.headers.entries()])
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Error en la respuesta:', {
-          status: response.status,
-          statusText: response.statusText,
-          body: errorText
+      // Sincronizar inputs de color con color pickers
+      if (colorPrimarioPicker && colorPrimario) {
+        colorPrimarioPicker.addEventListener('input', () => {
+          if (colorPrimario) colorPrimario.value = colorPrimarioPicker.value;
         });
-        showNotification(false, `Error al guardar: ${response.status} - ${errorText}`);
-        throw new Error(`Error al guardar la configuración: ${response.status} - ${errorText}`);
       }
-
-      const data = await response.json();
-      console.log('Configuración guardada:', data);
-      showNotification(true, 'Configuración guardada correctamente');
       
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-      
-      return true;
-    } catch (error: any) {
-      console.error('Error al guardar la configuración:', error);
-      showNotification(false, `Error al guardar: ${error?.message || 'Error desconocido'}`);
-      return false;
-    }
-  }
-
-  // Función para cargar la configuración inicial
-  async function loadConfig() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No hay token de autenticación');
-      window.location.href = '/admin/login';
-      return;
-    }
-
-    try {
-      console.log('Cargando configuración...');
-      const apiUrl = getApiUrl('config');
-      console.log('URL de la API para cargar:', apiUrl);
-      
-      const response = await fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache'
-        }
-      });
-
-      console.log('Respuesta de carga recibida:', {
-        status: response.status,
-        statusText: response.statusText,
-        headers: Object.fromEntries([...response.headers.entries()])
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Error al cargar la configuración:', {
-          status: response.status,
-          statusText: response.statusText,
-          body: errorText
+      if (colorSecundarioPicker && colorSecundario) {
+        colorSecundarioPicker.addEventListener('input', () => {
+          if (colorSecundario) colorSecundario.value = colorSecundarioPicker.value;
         });
-        throw new Error(`Error al cargar la configuración: ${response.status} - ${errorText}`);
+      }
+      
+      if (colorPrimario && colorPrimarioPicker) {
+        colorPrimario.addEventListener('input', () => {
+          if (colorPrimarioPicker) colorPrimarioPicker.value = colorPrimario.value;
+        });
+      }
+      
+      if (colorSecundario && colorSecundarioPicker) {
+        colorSecundario.addEventListener('input', () => {
+          if (colorSecundarioPicker) colorSecundarioPicker.value = colorSecundario.value;
+        });
       }
 
-      const config = await response.json();
-      console.log('Configuración cargada:', config);
-      
-      // Asegurarse de que skills sea un string
-      if (config.skills && typeof config.skills !== 'string') {
-        config.skills = String(config.skills);
-      }
-      
-      // Actualizar todos los campos del formulario
-      Object.entries(config).forEach(([key, value]) => {
-        const element = document.getElementById(key);
-        if (element) {
-          if (element instanceof HTMLInputElement) {
-            if (element.type === 'checkbox') {
-              element.checked = Boolean(value);
-            } else {
-              element.value = String(value || '');
+      // Cargar configuración actual
+      try {
+        const response = await fetch(`${API_URL.replace('/api', '')}/api/config`);
+        if (response.ok) {
+          const config = await response.json();
+          
+          // Rellenar el formulario con los datos
+          Object.keys(config).forEach(key => {
+            const input = document.getElementById(key);
+            if (input) {
+              if (input.type === 'checkbox') {
+                input.checked = config[key];
+              } else {
+                input.value = config[key] || '';
+              }
             }
-          } else if (element instanceof HTMLTextAreaElement) {
-            element.value = String(value || '');
+          });
+          
+          // Actualizar color pickers
+          if (config.colorPrimario && colorPrimarioPicker) colorPrimarioPicker.value = config.colorPrimario;
+          if (config.colorSecundario && colorSecundarioPicker) colorSecundarioPicker.value = config.colorSecundario;
+        }
+      } catch (error) {
+        showNotification('Error al cargar la configuración', 'error');
+      }
+
+      // Guardar configuración
+      if (saveBtn && configForm) {
+        saveBtn.addEventListener('click', async () => {
+          const formData = new FormData(configForm);
+          const configData = {};
+          
+          formData.forEach((value, key) => {
+            configData[key] = value;
+          });
+          
+          // Manejar checkbox
+          const modoMantenimiento = document.getElementById('modoMantenimiento');
+          if (modoMantenimiento) {
+            configData.modoMantenimiento = modoMantenimiento.checked;
           }
-        }
-      });
-
-      showNotification(true, 'Configuración cargada correctamente');
-    } catch (error: any) {
-      console.error('Error al cargar la configuración:', error);
-      showNotification(false, `Error al cargar: ${error?.message || 'Error desconocido'}`);
-    }
-  }
-
-  // Inicializar eventos cuando el DOM esté listo
-  document.addEventListener('DOMContentLoaded', () => {
-    loadConfig();
-
-    // Manejar el envío del formulario
-    const form = document.getElementById('configForm');
-    form?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      // Crear un objeto simple para la configuración
-      const config: Partial<ConfiguracionSitio> = {};
-      
-      // Procesar cada campo manualmente para evitar problemas con FormData
-      // Campos de texto y textarea
-      const textFields = [
-        'siteName', 'siteDescription', 'navbarTitle', 
-        'emailContacto', 'emailNotificaciones', 'mensajeMantenimiento',
-        'developerName', 'developerTitle', 'developerBio',
-        'aboutMeDescription', 'aboutMeSecondParagraph',
-        'profileImage', 'cvLink', 'githubUrl', 'youtubeUrl', 'twitterUrl',
-        'skills', 'colorPrimario', 'colorSecundario'
-      ];
-      
-      textFields.forEach(fieldId => {
-        const element = document.getElementById(fieldId);
-        if (element) {
-          if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
-            (config as any)[fieldId] = element.value;
+          
+          try {
+            const response = await fetch(`${API_URL.replace('/api', '')}/api/config`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+              },
+              body: JSON.stringify(configData)
+            });
+            
+            if (response.ok) {
+              showNotification('Configuración guardada correctamente', 'success');
+            } else {
+              const data = await response.json();
+              showNotification(data.message || 'Error al guardar la configuración', 'error');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            showNotification('Error al guardar la configuración', 'error');
           }
-        }
-      });
+        });
+      }
       
-      // Campos checkbox
-      const checkboxFields = ['modoMantenimiento'];
-      checkboxFields.forEach(fieldId => {
-        const element = document.getElementById(fieldId) as HTMLInputElement;
-        if (element) {
-          (config as any)[fieldId] = element.checked;
-        }
-      });
+      // Restablecer formulario
+      if (resetBtn && configForm) {
+        resetBtn.addEventListener('click', () => {
+          configForm.reset();
+          showNotification('Formulario restablecido', 'info');
+        });
+      }
       
-      console.log('Configuración a guardar:', config);
-      await saveConfig(config);
+      // Función para mostrar notificaciones
+      function showNotification(message, type) {
+        if (notificationMessage) {
+          notificationMessage.textContent = message;
+        }
+        
+        // Establecer colores según el tipo
+        if (notification) {
+          if (type === 'success') {
+            notification.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-lg bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-100 z-50 animate-fade-in';
+          } else if (type === 'error') {
+            notification.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-lg bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-100 z-50 animate-fade-in';
+          } else {
+            notification.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-lg bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-100 z-50 animate-fade-in';
+          }
+          
+          notification.classList.remove('hidden');
+          
+          // Ocultar después de 3 segundos
+          setTimeout(() => {
+            if (notification) {
+              notification.classList.add('hidden');
+            }
+          }, 3000);
+        }
+      }
     });
-
-    // Manejar cambios en el modo mantenimiento
-    const modoMantenimientoToggle = document.getElementById('modoMantenimiento') as HTMLInputElement;
-    const mensajeMantenimiento = document.getElementById('mensajeMantenimiento') as HTMLTextAreaElement;
-
-    if (modoMantenimientoToggle && mensajeMantenimiento) {
-      modoMantenimientoToggle.addEventListener('change', async () => {
-        const config: Partial<ConfiguracionSitio> = {
-          modoMantenimiento: modoMantenimientoToggle.checked,
-          mensajeMantenimiento: mensajeMantenimiento.value
-        };
-        await saveConfig(config);
-      });
-    }
-  });
-</script> 
+  </script>
+</AdminLayout> 

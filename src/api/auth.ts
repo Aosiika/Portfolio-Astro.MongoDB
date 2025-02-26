@@ -1,3 +1,5 @@
+import { API_URL } from './config';
+
 // Tipos de usuario
 interface User {
   _id: string;
@@ -50,10 +52,9 @@ export const isAdmin = async (): Promise<boolean> => {
     const user = getCurrentUser();
     if (!user) return false;
     
-    const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:5000';
     const token = window.localStorage.getItem('token');
     
-    const response = await fetch(`${API_URL}/api/users/profile`, {
+    const response = await fetch(`${API_URL.replace('/api', '')}/users/profile`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

@@ -91,6 +91,18 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           <input type="text" id="imageUrl" name="imageUrl" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
         </div>
         
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label for="demoUrl" class="block text-sm font-medium text-gray-700 dark:text-gray-300">URL de Demo (opcional)</label>
+            <input type="text" id="demoUrl" name="demoUrl" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+          </div>
+          
+          <div class="space-y-2">
+            <label for="sourceCodeUrl" class="block text-sm font-medium text-gray-700 dark:text-gray-300">URL del Código Fuente (opcional)</label>
+            <input type="text" id="sourceCodeUrl" name="sourceCodeUrl" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+          </div>
+        </div>
+        
         <div class="flex items-center">
           <input type="checkbox" id="featured" name="featured" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
           <label for="featured" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">Proyecto Destacado</label>
@@ -143,6 +155,8 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
     category: string;
     featured: boolean;
     createdAt: string;
+    demoUrl?: string;
+    sourceCodeUrl?: string;
   }
 
   // Función para verificar autenticación
@@ -318,6 +332,8 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       const descriptionInput = document.getElementById('description') as HTMLTextAreaElement;
       const contentInput = document.getElementById('content') as HTMLTextAreaElement;
       const imageUrlInput = document.getElementById('imageUrl') as HTMLInputElement;
+      const demoUrlInput = document.getElementById('demoUrl') as HTMLInputElement;
+      const sourceCodeUrlInput = document.getElementById('sourceCodeUrl') as HTMLInputElement;
       const featuredInput = document.getElementById('featured') as HTMLInputElement;
       
       if (projectIdInput) projectIdInput.value = project._id;
@@ -326,6 +342,8 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       if (descriptionInput) descriptionInput.value = project.description;
       if (contentInput) contentInput.value = project.content;
       if (imageUrlInput) imageUrlInput.value = project.imageUrl;
+      if (demoUrlInput) demoUrlInput.value = project.demoUrl || '';
+      if (sourceCodeUrlInput) sourceCodeUrlInput.value = project.sourceCodeUrl || '';
       if (featuredInput) featuredInput.checked = project.featured;
       
       // Guardar el ID del proyecto actual
@@ -360,6 +378,8 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
     const descriptionInput = document.getElementById('description') as HTMLTextAreaElement;
     const contentInput = document.getElementById('content') as HTMLTextAreaElement;
     const imageUrlInput = document.getElementById('imageUrl') as HTMLInputElement;
+    const demoUrlInput = document.getElementById('demoUrl') as HTMLInputElement;
+    const sourceCodeUrlInput = document.getElementById('sourceCodeUrl') as HTMLInputElement;
     const featuredInput = document.getElementById('featured') as HTMLInputElement;
     
     const projectData = {
@@ -368,7 +388,10 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       description: descriptionInput.value,
       content: contentInput.value,
       imageUrl: imageUrlInput.value,
-      featured: featuredInput.checked
+      demoUrl: demoUrlInput.value,
+      sourceCodeUrl: sourceCodeUrlInput.value,
+      featured: featuredInput.checked,
+      technologies: [] // Añadir array vacío de tecnologías
     };
     
     try {
@@ -391,7 +414,8 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       });
       
       if (!response.ok) {
-        throw new Error('Error al guardar el proyecto');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error al guardar el proyecto');
       }
       
       // Cerrar el modal y recargar los proyectos

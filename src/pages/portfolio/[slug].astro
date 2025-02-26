@@ -1,0 +1,185 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { API_URL } from '../../api/config';
+
+// Obtener el slug del proyecto de los parámetros de la URL
+const { slug } = Astro.params;
+
+// Obtener todos los proyectos para encontrar el que coincide con el slug
+let project = null;
+let error = null;
+
+try {
+  const response = await fetch(`${API_URL}/projects`, {
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache'
+    }
+  });
+  
+  if (response.ok) {
+    const data = await response.json();
+    const projects = data.projects || [];
+    
+    // Encontrar el proyecto que coincide con el slug
+    project = projects.find(p => p.slug === slug);
+    
+    if (!project) {
+      error = 'Proyecto no encontrado';
+    }
+  } else {
+    error = 'Error al cargar el proyecto';
+  }
+} catch (err) {
+  console.error('Error al cargar el proyecto:', err);
+  error = 'Error al cargar el proyecto';
+}
+
+// Formatear la fecha de finalización si existe
+let formattedDate = '';
+if (project && project.completionDate) {
+  const date = new Date(project.completionDate);
+  formattedDate = date.toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  });
+}
+---
+
+<MainLayout 
+  title={project ? `${project.title} - Portfolio` : 'Proyecto no encontrado'} 
+  description={project ? project.description : 'Detalles del proyecto'}
+  simpleNav={true}
+>
+  <div class="py-20">
+    <div class="max-w-4xl mx-auto px-4">
+      {error ? (
+        <div class="text-center py-20">
+          <div class="mb-8">
+            <svg class="w-24 h-24 mx-auto text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+          </div>
+          <h1 class="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-200">{error}</h1>
+          <p class="text-gray-600 dark:text-gray-400 mb-8">Lo sentimos, no pudimos encontrar el proyecto que estás buscando.</p>
+          <a href="/portfolio" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors">
+            Volver al Portfolio
+          </a>
+        </div>
+      ) : (
+        <div>
+          <h1 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">{project.title}</h1>
+          
+          <div class="mb-8 flex flex-wrap gap-2">
+            {project.technologies && project.technologies.map((tech: string) => (
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">
+                {tech}
+              </span>
+            ))}
+          </div>
+          
+          <div class="aspect-video bg-gray-200 dark:bg-gray-700 rounded-xl overflow-hidden mb-8 shadow-xl">
+            <img 
+              src={project.imageUrl} 
+              alt={project.title}
+              class="w-full h-full object-cover"
+              onerror="this.src='https://via.placeholder.com/1200x675?text=Proyecto'"
+            />
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div class="col-span-2">
+              <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Descripción</h2>
+              <p class="text-gray-600 dark:text-gray-400 mb-6">{project.description}</p>
+              
+              <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Detalles del Proyecto</h2>
+              <div class="prose prose-blue dark:prose-invert max-w-none">
+                {project.content.split('\n').map((paragraph: string) => (
+                  <p class="mb-4 text-gray-600 dark:text-gray-400">{paragraph}</p>
+                ))}
+              </div>
+            </div>
+            
+            <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-md">
+              <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Información</h3>
+              
+              <div class="space-y-4">
+                <div>
+                  <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Categoría</h4>
+                  <p class="text-gray-800 dark:text-gray-200">{project.category}</p>
+                </div>
+                
+                {formattedDate && (
+                  <div>
+                    <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Fecha de Finalización</h4>
+                    <p class="text-gray-800 dark:text-gray-200">{formattedDate}</p>
+                  </div>
+                )}
+                
+                <div class="pt-4 space-y-3">
+                  {project.demoUrl && (
+                    <a 
+                      href={project.demoUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center justify-center w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                    >
+                      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                      </svg>
+                      Ver Demo
+                    </a>
+                  )}
+                  
+                  {project.sourceCodeUrl && (
+                    <a 
+                      href={project.sourceCodeUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center justify-center w-full px-4 py-2 bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg transition-colors"
+                    >
+                      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                      </svg>
+                      Ver Código Fuente
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</MainLayout>
+
+<script>
+  import { gsap } from 'gsap';
+  
+  // Animaciones para la página de detalle
+  gsap.from('h1', {
+    duration: 1,
+    y: 30,
+    opacity: 0,
+    ease: 'power3.out'
+  });
+  
+  gsap.from('.aspect-video', {
+    duration: 1,
+    y: 30,
+    opacity: 0,
+    delay: 0.3,
+    ease: 'power3.out'
+  });
+  
+  gsap.from('.grid', {
+    duration: 1,
+    y: 30,
+    opacity: 0,
+    delay: 0.6,
+    ease: 'power3.out'
+  });
+</script> 

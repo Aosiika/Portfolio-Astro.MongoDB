@@ -1,72 +1,100 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import { API_URL } from '../api/config';
 
-const projects = [
-  {
-    title: 'E-commerce Moderno',
-    description: 'Tienda en línea con carrito de compras, pagos y panel de administración.',
-    image: '/images/project1.jpg',
-    tags: ['React', 'Node.js', 'MongoDB'],
-    link: '#'
-  },
-  {
-    title: 'App de Gestión',
-    description: 'Sistema de gestión de tareas y proyectos para equipos.',
-    image: '/images/project2.jpg',
-    tags: ['Vue.js', 'Express', 'PostgreSQL'],
-    link: '#'
-  },
-  {
-    title: 'Portfolio Personal',
-    description: 'Sitio web personal con modo oscuro y animaciones.',
-    image: '/images/project3.jpg',
-    tags: ['Astro', 'TailwindCSS', 'GSAP'],
-    link: '#'
+// Obtener todos los proyectos desde el backend
+let projects = [];
+try {
+  const response = await fetch(`${API_URL}/projects`, {
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache'
+    }
+  });
+  
+  if (response.ok) {
+    const data = await response.json();
+    projects = data.projects || [];
+    console.log('Proyectos cargados:', projects);
+  } else {
+    console.error('Error al cargar proyectos:', response.statusText);
   }
-];
+} catch (error) {
+  console.error('Error al cargar proyectos:', error);
+}
 ---
 
-<MainLayout title="Portfolio - Mis Proyectos" description="Explora mis proyectos más recientes">
+<MainLayout title="Portfolio - Mis Proyectos" description="Explora mis proyectos más recientes" simpleNav={true}>
   <section class="py-20">
-    <div class="max-w-6xl mx-auto">
-      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-center">Mi Portfolio</h1>
+    <div class="max-w-6xl mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Mi Portfolio</h1>
       
       {projects.length > 0 ? (
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <div class="project-card bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
-              <div class="aspect-video bg-gray-200 dark:bg-gray-700">
+            <div class="project-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
+              <div class="aspect-video bg-gray-200 dark:bg-gray-700 overflow-hidden">
                 <img 
-                  src={project.image} 
+                  src={project.imageUrl} 
                   alt={project.title}
-                  class="w-full h-full object-cover"
+                  class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                  onerror="this.src='https://via.placeholder.com/600x400?text=Proyecto'"
                 />
               </div>
               <div class="p-6">
                 <h3 class="text-xl font-semibold mb-2">{project.title}</h3>
                 <p class="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
                 <div class="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map(tag => (
+                  {project.technologies && project.technologies.map(tech => (
                     <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">
-                      {tag}
+                      {tech}
                     </span>
                   ))}
                 </div>
-                <a 
-                  href={project.link}
-                  class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
-                >
-                  Ver Proyecto
-                </a>
+                <div class="flex space-x-3">
+                  <a 
+                    href={`/portfolio/${project.slug}`}
+                    class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-lg transition-colors"
+                  >
+                    Ver Detalles
+                  </a>
+                  {project.demoUrl && (
+                    <a 
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+                    >
+                      Demo
+                    </a>
+                  )}
+                </div>
               </div>
+              {project.featured && (
+                <div class="absolute top-3 right-3">
+                  <span class="px-3 py-1 bg-yellow-400 text-yellow-900 rounded-full text-xs font-bold">Destacado</span>
+                </div>
+              )}
             </div>
           ))}
         </div>
       ) : (
-        <div class="text-center py-20">
-          <p class="text-xl text-gray-600 dark:text-gray-400">
-            Actualmente no hay proyectos disponibles.
+        <div class="empty-projects-container flex flex-col items-center justify-center py-20 px-4">
+          <div class="empty-projects-icon mb-8">
+            <svg class="w-40 h-40 text-blue-200 dark:text-blue-800" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2v10h14V7H5zm2 2h10v2H7V9zm0 4h10v2H7v-2z"/>
+            </svg>
+          </div>
+          <h3 class="text-3xl font-bold text-gray-700 dark:text-gray-300 mb-4 text-center">Aún no hay proyectos disponibles</h3>
+          <p class="text-gray-500 dark:text-gray-400 text-center max-w-lg mb-8">
+            Estamos trabajando en proyectos increíbles que pronto estarán disponibles en nuestro portfolio. ¡Vuelve pronto para descubrir nuestro trabajo!
           </p>
+          <div class="empty-projects-animation relative w-full max-w-md h-20 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-gray-400 dark:text-gray-500 text-sm">Trabajando en nuevos proyectos...</span>
+            </div>
+            <div class="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-purple-600 progress-bar"></div>
+          </div>
         </div>
       )}
     </div>
@@ -92,13 +120,27 @@ const projects = [
     }
   });
 
-  // Manejar errores de carga de imágenes
-  document.addEventListener('DOMContentLoaded', () => {
-    const images = document.querySelectorAll('img');
-    images.forEach(img => {
-      img.addEventListener('error', () => {
-        img.src = 'https://via.placeholder.com/600x400?text=Proyecto';
-      });
+  // Animación para la barra de progreso en la sección de proyectos vacíos
+  const progressBar = document.querySelector('.empty-projects-animation .progress-bar');
+  if (progressBar) {
+    gsap.to(progressBar, {
+      width: '100%',
+      duration: 3,
+      repeat: -1,
+      ease: 'power1.inOut',
+      yoyo: true
     });
-  });
+  }
+
+  // Animación para el icono de proyectos vacíos
+  const emptyIcon = document.querySelector('.empty-projects-icon svg');
+  if (emptyIcon) {
+    gsap.to(emptyIcon, {
+      rotation: 5,
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut'
+    });
+  }
 </script> 

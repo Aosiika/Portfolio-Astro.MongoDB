@@ -11,6 +11,29 @@ const response = await fetch(`${API_URL}/config`, {
 });
 const config = await response.json();
 
+// Log para depuración
+console.log('Configuración cargada en index:', config);
+
+// Obtener proyectos destacados desde el backend
+let featuredProjects = [];
+try {
+  const projectsResponse = await fetch(`${API_URL}/projects/featured`, {
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache'
+    }
+  });
+  
+  if (projectsResponse.ok) {
+    featuredProjects = await projectsResponse.json();
+    console.log('Proyectos destacados cargados:', featuredProjects);
+  } else {
+    console.error('Error al cargar proyectos destacados:', projectsResponse.statusText);
+  }
+} catch (error) {
+  console.error('Error al cargar proyectos destacados:', error);
+}
+
 // Verificar si el modo mantenimiento está activado
 if (config.modoMantenimiento) {
   return new Response(`
@@ -213,29 +236,6 @@ if (config.modoMantenimiento) {
 // Asegurarse de que skills sea un string antes de intentar dividirlo
 const skills = typeof config.skills === 'string' ? config.skills.split(',').map((skill: string) => skill.trim()) : [];
 
-const featuredProjects = [
-  {
-    title: 'E-commerce Website',
-    description: 'Tienda online completa con carrito de compras y pasarela de pagos',
-    image: 'https://images.unsplash.com/photo-1557821552-17105176677c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-    tags: ['React', 'Node.js', 'MongoDB'],
-    link: '#'
-  },
-  {
-    title: 'App de Gestión',
-    description: 'Sistema de gestión de tareas y proyectos para equipos.',
-    image: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-    tags: ['Vue.js', 'Express', 'PostgreSQL'],
-    link: '#'
-  },
-  {
-    title: 'Portfolio Personal',
-    description: 'Sitio web personal con modo oscuro y animaciones.',
-    image: 'https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-    tags: ['Astro', 'TailwindCSS', 'GSAP'],
-    link: '#'
-  }
-];
 ---
 
 <MainLayout title={config.siteName || "Portfolio Personal"}>
@@ -344,46 +344,66 @@ const featuredProjects = [
         <div class="section-line w-0 h-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mt-8"></div>
       </h2>
       
-      <div class="portfolio-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-        {featuredProjects.map((project, index) => (
-          <div class="portfolio-item group relative overflow-hidden rounded-xl shadow-xl transition-all duration-500 hover:shadow-2xl">
-            <div class="aspect-[4/3] overflow-hidden">
-              <img 
-                src={project.image} 
-                alt={project.title}
-                class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
-                onerror="this.src='https://via.placeholder.com/600x400?text=Proyecto'"
-              />
-            </div>
-            
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
-              <h3 class="text-2xl font-bold text-white mb-2 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">{project.title}</h3>
-              <p class="text-gray-200 mb-4 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 delay-100">{project.description}</p>
-              
-              <div class="flex flex-wrap gap-2 mb-6 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 delay-200">
-                {project.tags.map(tag => (
-                  <span class="px-3 py-1 bg-blue-600/80 text-white rounded-full text-sm font-medium">
-                    {tag}
-                  </span>
-                ))}
+      {featuredProjects.length > 0 ? (
+        <div class="portfolio-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          {featuredProjects.map((project, index) => (
+            <div class="portfolio-item group relative overflow-hidden rounded-xl shadow-xl transition-all duration-500 hover:shadow-2xl">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img 
+                  src={project.imageUrl} 
+                  alt={project.title}
+                  class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
+                  onerror="this.src='https://via.placeholder.com/600x400?text=Proyecto'"
+                />
               </div>
               
-              <a 
-                href={project.link}
-                class="group relative inline-flex items-center justify-center px-6 py-2 overflow-hidden font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 delay-300"
-              >
-                <span class="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-600 to-purple-600"></span>
-                <span class="absolute bottom-0 right-0 block w-64 h-64 mb-32 mr-4 transition-all duration-500 origin-bottom-left transform rotate-45 translate-x-24 bg-blue-800 opacity-30 group-hover:rotate-90 ease"></span>
-                <span class="relative">Ver Proyecto</span>
-              </a>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
+                <h3 class="text-2xl font-bold text-white mb-2 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">{project.title}</h3>
+                <p class="text-gray-200 mb-4 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 delay-100">{project.description}</p>
+                
+                <div class="flex flex-wrap gap-2 mb-6 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 delay-200">
+                  {project.technologies && project.technologies.map(tech => (
+                    <span class="px-3 py-1 bg-blue-600/80 text-white rounded-full text-sm font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                
+                <a 
+                  href={`/portfolio/${project.slug}`}
+                  class="group relative inline-flex items-center justify-center px-6 py-2 overflow-hidden font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 delay-300"
+                >
+                  <span class="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-600 to-purple-600"></span>
+                  <span class="absolute bottom-0 right-0 block w-64 h-64 mb-32 mr-4 transition-all duration-500 origin-bottom-left transform rotate-45 translate-x-24 bg-blue-800 opacity-30 group-hover:rotate-90 ease"></span>
+                  <span class="relative">Ver Proyecto</span>
+                </a>
+              </div>
+              
+              <div class="absolute top-4 right-4 bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 delay-400">
+                {index + 1}
+              </div>
             </div>
-            
-            <div class="absolute top-4 right-4 bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 delay-400">
-              {index + 1}
-            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="empty-projects-container flex flex-col items-center justify-center py-16 px-4">
+          <div class="empty-projects-icon mb-8">
+            <svg class="w-32 h-32 text-blue-200 dark:text-blue-800" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2v10h14V7H5zm2 2h10v2H7V9zm0 4h10v2H7v-2z"/>
+            </svg>
           </div>
-        ))}
-      </div>
+          <h3 class="text-2xl font-bold text-gray-700 dark:text-gray-300 mb-4 text-center">Aún no hay proyectos destacados</h3>
+          <p class="text-gray-500 dark:text-gray-400 text-center max-w-lg mb-8">
+            Pronto añadiremos proyectos increíbles a nuestro portfolio. ¡Vuelve pronto para descubrir nuestro trabajo!
+          </p>
+          <div class="empty-projects-animation relative w-full max-w-md h-16 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-gray-400 dark:text-gray-500 text-sm">Trabajando en nuevos proyectos...</span>
+            </div>
+            <div class="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-purple-600 progress-bar"></div>
+          </div>
+        </div>
+      )}
       
       <div class="text-center mt-24">
         <a 
@@ -845,4 +865,16 @@ const featuredProjects = [
       }
     });
   });
+
+  // Animación para la barra de progreso en la sección de proyectos vacíos
+  const progressBar = document.querySelector('.empty-projects-animation .progress-bar');
+  if (progressBar) {
+    gsap.to(progressBar, {
+      width: '100%',
+      duration: 3,
+      repeat: -1,
+      ease: 'power1.inOut',
+      yoyo: true
+    });
+  }
 </script> 

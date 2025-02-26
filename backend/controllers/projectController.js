@@ -54,22 +54,31 @@ const createProject = asyncHandler(async (req, res) => {
   const {
     title,
     description,
+    content,
     imageUrl,
     category,
     technologies,
     demoUrl,
-    githubUrl,
+    sourceCodeUrl,
     featured,
   } = req.body;
 
+  // Generar slug a partir del título
+  const slug = title
+    .toLowerCase()
+    .replace(/[^\w\s]/gi, '')
+    .replace(/\s+/g, '-');
+
   const project = new Project({
     title,
+    slug, // Añadir el slug generado
     description,
+    content,
     imageUrl: imageUrl || '/images/sample.jpg',
     category,
     technologies: technologies || [],
     demoUrl,
-    githubUrl,
+    sourceCodeUrl,
     featured: featured || false,
   });
 
@@ -86,24 +95,34 @@ const updateProject = asyncHandler(async (req, res) => {
   const {
     title,
     description,
+    content,
     imageUrl,
     category,
     technologies,
     demoUrl,
-    githubUrl,
+    sourceCodeUrl,
     featured,
   } = req.body;
 
   const project = await Project.findById(req.params.id);
 
   if (project) {
+    // Si el título ha cambiado, actualizar también el slug
+    if (title && title !== project.title) {
+      project.slug = title
+        .toLowerCase()
+        .replace(/[^\w\s]/gi, '')
+        .replace(/\s+/g, '-');
+    }
+
     project.title = title || project.title;
     project.description = description || project.description;
+    project.content = content || project.content;
     project.imageUrl = imageUrl || project.imageUrl;
     project.category = category || project.category;
     project.technologies = technologies || project.technologies;
     project.demoUrl = demoUrl || project.demoUrl;
-    project.githubUrl = githubUrl || project.githubUrl;
+    project.sourceCodeUrl = sourceCodeUrl || project.sourceCodeUrl;
     project.featured = featured !== undefined ? featured : project.featured;
 
     const updatedProject = await project.save();
