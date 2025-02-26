@@ -1,0 +1,655 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { API_URL, getApiUrl } from '../../api/config';
+
+interface ConfiguracionSitio {
+  siteName: string;
+  siteDescription: string;
+  navbarTitle: string;
+  emailContacto: string;
+  emailNotificaciones: string;
+  modoMantenimiento: boolean;
+  mensajeMantenimiento: string;
+  colorPrimario: string;
+  colorSecundario: string;
+  developerName?: string;
+  developerTitle?: string;
+  developerBio?: string;
+  aboutMeDescription?: string;
+  aboutMeSecondParagraph?: string;
+  profileImage?: string;
+  cvLink?: string;
+  githubUrl?: string;
+  youtubeUrl?: string;
+  twitterUrl?: string;
+  skills?: string;
+}
+---
+
+<AdminLayout title="Configuración - Admin Panel">
+  <!-- Notificación -->
+  <div id="notification" class="fixed top-4 right-4 p-4 rounded-lg shadow-lg hidden transition-all duration-300 z-50">
+    <p id="notification-message" class="text-gray-800 dark:text-gray-200"></p>
+  </div>
+
+  <div class="container px-6 mx-auto">
+    <!-- Encabezado con gradiente -->
+    <div class="mb-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg p-6 text-white">
+      <div class="flex flex-col md:flex-row items-center justify-between">
+        <div class="mb-4 md:mb-0">
+          <h2 class="text-2xl font-bold mb-2">Configuración del Sitio</h2>
+          <p class="text-blue-100">Personaliza la apariencia y funcionamiento de tu portfolio.</p>
+        </div>
+        <div class="flex space-x-2">
+          <a
+            href="/"
+            target="_blank"
+            class="px-4 py-2 bg-white text-blue-600 rounded-lg shadow hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 flex items-center"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+              <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+            </svg>
+            Ver sitio
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <form id="configForm" class="grid gap-6 mb-8" onsubmit="return false;">
+      <!-- Configuración General -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card border-l-4 border-blue-500">
+        <div class="flex items-center mb-6">
+          <div class="p-3 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 mr-4 shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
+            Configuración General
+          </h3>
+        </div>
+        <div class="grid gap-6 md:grid-cols-2">
+          <div>
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">Nombre del Sitio</span>
+              <input
+                type="text"
+                id="siteName"
+                name="siteName"
+                class="block w-full mt-1 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300 transition-colors duration-200"
+                placeholder="Mi Portfolio Profesional"
+                value="Portfolio de Aosika"
+              />
+            </label>
+          </div>
+          <div>
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">Título del Navbar</span>
+              <input
+                type="text"
+                id="navbarTitle"
+                name="navbarTitle"
+                class="block w-full mt-1 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300 transition-colors duration-200"
+                placeholder="Portfolio"
+                value="Aosika Dev"
+              />
+            </label>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">Descripción del Sitio</span>
+              <textarea
+                id="siteDescription"
+                name="siteDescription"
+                rows="3"
+                class="block w-full mt-1 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300 transition-colors duration-200"
+                placeholder="Descripción de tu portfolio..."
+              >Portfolio profesional de Aosika, desarrollador Full Stack especializado en crear soluciones web modernas y atractivas.</textarea>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Información Personal -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card border-l-4 border-purple-500">
+        <div class="flex items-center mb-6">
+          <div class="p-3 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 mr-4 shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
+            Información Personal
+          </h3>
+        </div>
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">Nombre del Desarrollador</span>
+              <input
+                type="text"
+                id="developerName"
+                name="developerName"
+                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
+                placeholder="Tu Nombre"
+                value="Aosika"
+              />
+            </label>
+          </div>
+          <div>
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">Título Profesional</span>
+              <input
+                type="text"
+                id="developerTitle"
+                name="developerTitle"
+                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
+                placeholder="Desarrollador Full Stack"
+                value="Desarrollador Full Stack & Diseñador UI/UX"
+              />
+            </label>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">Bio Corta</span>
+              <input
+                type="text"
+                id="developerBio"
+                name="developerBio"
+                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
+                placeholder="Desarrollador Full Stack y Creador de Contenido"
+                value="Desarrollador Full Stack apasionado por crear experiencias web innovadoras y atractivas"
+              />
+            </label>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">Descripción Sobre Mí</span>
+              <textarea
+                id="aboutMeDescription"
+                name="aboutMeDescription"
+                rows="4"
+                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
+                placeholder="Soy un desarrollador Full Stack apasionado por crear soluciones web innovadoras y contenido digital de calidad. Con experiencia en el desarrollo de aplicaciones web modernas y la creación de contenido audiovisual, combino mis habilidades técnicas con mi creatividad para ofrecer experiencias únicas y valiosas."
+              >Soy Aosika, un desarrollador Full Stack apasionado por crear soluciones web innovadoras y contenido digital de calidad. Con experiencia en el desarrollo de aplicaciones web modernas y la creación de contenido audiovisual, combino mis habilidades técnicas con mi creatividad para ofrecer experiencias únicas y valiosas.</textarea>
+            </label>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">Segundo Párrafo Sobre Mí</span>
+              <textarea
+                id="aboutMeSecondParagraph"
+                name="aboutMeSecondParagraph"
+                rows="3"
+                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
+                placeholder="Mi objetivo es crear productos digitales que no solo funcionen perfectamente, sino que también inspiren y eduquen a otros. A través de mi contenido, comparto conocimientos y experiencias en desarrollo web, diseño gráfico y producción audiovisual."
+              >Mi objetivo es crear productos digitales que no solo funcionen perfectamente, sino que también inspiren y eduquen a otros. A través de mi trabajo, comparto conocimientos y experiencias en desarrollo web, diseño de interfaces y optimización de rendimiento.</textarea>
+            </label>
+          </div>
+          <div>
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">URL de la Imagen de Perfil</span>
+              <input
+                type="text"
+                id="profileImage"
+                name="profileImage"
+                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
+                placeholder="https://ejemplo.com/imagen.jpg"
+                value="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+              />
+            </label>
+          </div>
+          <div>
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">Enlace al CV</span>
+              <input
+                type="text"
+                id="cvLink"
+                name="cvLink"
+                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
+                placeholder="https://ejemplo.com/cv.pdf"
+                value="https://aosika-portfolio.com/cv.pdf"
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Información de Contacto y Redes Sociales -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card border-l-4 border-green-500">
+        <div class="flex items-center mb-6">
+          <div class="p-3 rounded-full bg-gradient-to-br from-green-400 to-green-600 mr-4 shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
+            Información de Contacto y Redes Sociales
+          </h3>
+        </div>
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">Email de Contacto</span>
+              <input
+                type="email"
+                id="emailContacto"
+                name="emailContacto"
+                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
+                placeholder="tu@email.com"
+                value="contacto@aosika.dev"
+              />
+            </label>
+          </div>
+          <div>
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">Email para Notificaciones</span>
+              <input
+                type="email"
+                id="emailNotificaciones"
+                name="emailNotificaciones"
+                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
+                placeholder="notificaciones@email.com"
+                value="notificaciones@aosika.dev"
+              />
+            </label>
+          </div>
+          <div>
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">URL de GitHub</span>
+              <input
+                type="text"
+                id="githubUrl"
+                name="githubUrl"
+                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
+                placeholder="https://github.com/tuusuario"
+                value="https://github.com/aosika"
+              />
+            </label>
+          </div>
+          <div>
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">URL de YouTube</span>
+              <input
+                type="text"
+                id="youtubeUrl"
+                name="youtubeUrl"
+                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
+                placeholder="https://youtube.com/@tucanal"
+                value="https://youtube.com/@aosika_dev"
+              />
+            </label>
+          </div>
+          <div>
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">URL de X (Twitter)</span>
+              <input
+                type="text"
+                id="twitterUrl"
+                name="twitterUrl"
+                class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
+                placeholder="https://x.com/tuusuario"
+                value="https://x.com/aosika_dev"
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Habilidades -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card border-l-4 border-yellow-500">
+        <div class="flex items-center mb-6">
+          <div class="p-3 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 mr-4 shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
+            Habilidades
+          </h3>
+        </div>
+        <div>
+          <label class="block text-sm mb-2">
+            <span class="text-gray-700 dark:text-gray-400">Habilidades</span>
+            <input
+              type="text"
+              id="skills"
+              name="skills"
+              class="block w-full mt-1 text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300"
+              placeholder="Desarrollo Full Stack, React, Node.js, TypeScript, Astro, TailwindCSS, Creación de Contenido, Edición Audiovisual, Diseño Gráfico, Adobe Photoshop"
+              value="Desarrollo Full Stack, React, Node.js, TypeScript, Astro, TailwindCSS, Diseño UI/UX, Optimización Web, MongoDB, PostgreSQL"
+            />
+          </label>
+        </div>
+      </div>
+
+      <!-- Modo Mantenimiento -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card border-l-4 border-red-500">
+        <div class="flex items-center mb-6">
+          <div class="p-3 rounded-full bg-gradient-to-br from-red-400 to-red-600 mr-4 shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
+            Modo Mantenimiento
+          </h3>
+        </div>
+        <div class="grid gap-6">
+          <div class="flex items-center">
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input 
+                type="checkbox" 
+                id="modoMantenimiento"
+                name="modoMantenimiento"
+                class="sr-only peer"
+              >
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-gradient-to-r from-blue-500 to-purple-600"></div>
+              <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">Activar modo mantenimiento</span>
+            </label>
+          </div>
+          <div>
+            <label class="block text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-400">Mensaje de mantenimiento</span>
+              <textarea
+                id="mensajeMantenimiento"
+                name="mensajeMantenimiento"
+                rows="3"
+                class="block w-full mt-1 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-200 dark:text-gray-300 transition-colors duration-200"
+                placeholder="El sitio está en mantenimiento. Volveremos pronto..."
+              >Estamos realizando mejoras en el sitio. Por favor, vuelve más tarde.</textarea>
+            </label>
+          </div>
+          <div class="grid gap-4 md:grid-cols-2">
+            <div>
+              <label class="block text-sm mb-2">
+                <span class="text-gray-700 dark:text-gray-400">Color Primario</span>
+                <input
+                  type="color"
+                  id="colorPrimario"
+                  name="colorPrimario"
+                  class="block w-full h-10 mt-1 rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+                  value="#3B82F6"
+                />
+              </label>
+            </div>
+            <div>
+              <label class="block text-sm mb-2">
+                <span class="text-gray-700 dark:text-gray-400">Color Secundario</span>
+                <input
+                  type="color"
+                  id="colorSecundario"
+                  name="colorSecundario"
+                  class="block w-full h-10 mt-1 rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+                  value="#8B5CF6"
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="flex justify-end gap-4">
+        <button
+          type="submit"
+          class="px-6 py-3 text-sm font-medium leading-5 text-white transition-all duration-300 bg-gradient-to-r from-blue-500 to-purple-600 border border-transparent rounded-lg active:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:shadow-outline-blue flex items-center"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          Guardar Cambios
+        </button>
+      </div>
+    </form>
+  </div>
+</AdminLayout>
+
+<script>
+  import { API_URL, getApiUrl } from '../../api/config';
+
+  interface ConfiguracionSitio {
+    siteName: string;
+    siteDescription: string;
+    navbarTitle: string;
+    emailContacto: string;
+    emailNotificaciones: string;
+    modoMantenimiento: boolean;
+    mensajeMantenimiento: string;
+    colorPrimario: string;
+    colorSecundario: string;
+    developerName?: string;
+    developerTitle?: string;
+    developerBio?: string;
+    aboutMeDescription?: string;
+    aboutMeSecondParagraph?: string;
+    profileImage?: string;
+    cvLink?: string;
+    githubUrl?: string;
+    youtubeUrl?: string;
+    twitterUrl?: string;
+    skills?: string;
+  }
+
+  // Función para mostrar notificaciones
+  function showNotification(success: boolean, message: string) {
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notification-message');
+    
+    if (notification && notificationMessage) {
+      notification.classList.remove('hidden', 'bg-green-100', 'bg-red-100');
+      notification.classList.add(success ? 'bg-green-100' : 'bg-red-100');
+      notificationMessage.textContent = message;
+      
+      setTimeout(() => {
+        notification.classList.add('hidden');
+      }, 3000);
+    }
+  }
+
+  // Función para guardar la configuración completa
+  async function saveConfig(config: Partial<ConfiguracionSitio>) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('No hay token de autenticación');
+      window.location.href = '/admin/login';
+      return false;
+    }
+
+    try {
+      console.log('Guardando configuración:', config);
+      
+      // Asegurarse de que skills sea un string y no un array u otro tipo
+      if (config.skills !== undefined) {
+        if (typeof config.skills !== 'string') {
+          console.log('Convirtiendo skills a string:', config.skills);
+          config.skills = String(config.skills);
+        }
+        // Eliminar cualquier propiedad map que pudiera haberse añadido
+        if ((config.skills as any).map) {
+          console.log('Eliminando propiedad map de skills');
+          const skillsStr = String(config.skills);
+          delete (config as any).skills;
+          config.skills = skillsStr;
+        }
+      }
+      
+      const apiUrl = getApiUrl('config');
+      console.log('URL de la API:', apiUrl);
+      console.log('Configuración procesada para enviar:', JSON.stringify(config));
+      
+      const response = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache'
+        },
+        body: JSON.stringify(config)
+      });
+
+      console.log('Respuesta recibida:', {
+        status: response.status,
+        statusText: response.statusText,
+        headers: Object.fromEntries([...response.headers.entries()])
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error en la respuesta:', {
+          status: response.status,
+          statusText: response.statusText,
+          body: errorText
+        });
+        showNotification(false, `Error al guardar: ${response.status} - ${errorText}`);
+        throw new Error(`Error al guardar la configuración: ${response.status} - ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log('Configuración guardada:', data);
+      showNotification(true, 'Configuración guardada correctamente');
+      
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+      
+      return true;
+    } catch (error: any) {
+      console.error('Error al guardar la configuración:', error);
+      showNotification(false, `Error al guardar: ${error?.message || 'Error desconocido'}`);
+      return false;
+    }
+  }
+
+  // Función para cargar la configuración inicial
+  async function loadConfig() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('No hay token de autenticación');
+      window.location.href = '/admin/login';
+      return;
+    }
+
+    try {
+      console.log('Cargando configuración...');
+      const apiUrl = getApiUrl('config');
+      console.log('URL de la API para cargar:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache'
+        }
+      });
+
+      console.log('Respuesta de carga recibida:', {
+        status: response.status,
+        statusText: response.statusText,
+        headers: Object.fromEntries([...response.headers.entries()])
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error al cargar la configuración:', {
+          status: response.status,
+          statusText: response.statusText,
+          body: errorText
+        });
+        throw new Error(`Error al cargar la configuración: ${response.status} - ${errorText}`);
+      }
+
+      const config = await response.json();
+      console.log('Configuración cargada:', config);
+      
+      // Asegurarse de que skills sea un string
+      if (config.skills && typeof config.skills !== 'string') {
+        config.skills = String(config.skills);
+      }
+      
+      // Actualizar todos los campos del formulario
+      Object.entries(config).forEach(([key, value]) => {
+        const element = document.getElementById(key);
+        if (element) {
+          if (element instanceof HTMLInputElement) {
+            if (element.type === 'checkbox') {
+              element.checked = Boolean(value);
+            } else {
+              element.value = String(value || '');
+            }
+          } else if (element instanceof HTMLTextAreaElement) {
+            element.value = String(value || '');
+          }
+        }
+      });
+
+      showNotification(true, 'Configuración cargada correctamente');
+    } catch (error: any) {
+      console.error('Error al cargar la configuración:', error);
+      showNotification(false, `Error al cargar: ${error?.message || 'Error desconocido'}`);
+    }
+  }
+
+  // Inicializar eventos cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', () => {
+    loadConfig();
+
+    // Manejar el envío del formulario
+    const form = document.getElementById('configForm');
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Crear un objeto simple para la configuración
+      const config: Partial<ConfiguracionSitio> = {};
+      
+      // Procesar cada campo manualmente para evitar problemas con FormData
+      // Campos de texto y textarea
+      const textFields = [
+        'siteName', 'siteDescription', 'navbarTitle', 
+        'emailContacto', 'emailNotificaciones', 'mensajeMantenimiento',
+        'developerName', 'developerTitle', 'developerBio',
+        'aboutMeDescription', 'aboutMeSecondParagraph',
+        'profileImage', 'cvLink', 'githubUrl', 'youtubeUrl', 'twitterUrl',
+        'skills', 'colorPrimario', 'colorSecundario'
+      ];
+      
+      textFields.forEach(fieldId => {
+        const element = document.getElementById(fieldId);
+        if (element) {
+          if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+            (config as any)[fieldId] = element.value;
+          }
+        }
+      });
+      
+      // Campos checkbox
+      const checkboxFields = ['modoMantenimiento'];
+      checkboxFields.forEach(fieldId => {
+        const element = document.getElementById(fieldId) as HTMLInputElement;
+        if (element) {
+          (config as any)[fieldId] = element.checked;
+        }
+      });
+      
+      console.log('Configuración a guardar:', config);
+      await saveConfig(config);
+    });
+
+    // Manejar cambios en el modo mantenimiento
+    const modoMantenimientoToggle = document.getElementById('modoMantenimiento') as HTMLInputElement;
+    const mensajeMantenimiento = document.getElementById('mensajeMantenimiento') as HTMLTextAreaElement;
+
+    if (modoMantenimientoToggle && mensajeMantenimiento) {
+      modoMantenimientoToggle.addEventListener('change', async () => {
+        const config: Partial<ConfiguracionSitio> = {
+          modoMantenimiento: modoMantenimientoToggle.checked,
+          mensajeMantenimiento: mensajeMantenimiento.value
+        };
+        await saveConfig(config);
+      });
+    }
+  });
+</script> 

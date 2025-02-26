@@ -1,0 +1,276 @@
+---
+import { API_URL } from '../api/config';
+
+// Información del entorno
+const isProduction = import.meta.env.PROD;
+const apiUrl = API_URL;
+const publicApiUrl = import.meta.env.PUBLIC_API_URL;
+---
+
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prueba de API</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #4f46e5;
+      margin-bottom: 1.5rem;
+    }
+    .card {
+      background-color: #f9fafb;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .info {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .info strong {
+      color: #4b5563;
+    }
+    button {
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    button:hover {
+      background-color: #4338ca;
+    }
+    pre {
+      background-color: #1f2937;
+      color: #e5e7eb;
+      padding: 1rem;
+      border-radius: 0.25rem;
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+    .error {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      padding: 1rem;
+      border-radius: 0.25rem;
+      margin-top: 1rem;
+    }
+    .success {
+      background-color: #dcfce7;
+      color: #166534;
+      padding: 1rem;
+      border-radius: 0.25rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Prueba de API y Modo Mantenimiento</h1>
+  
+  <div class="card">
+    <h2>Información del Entorno</h2>
+    <div class="info">
+      <strong>Entorno:</strong> <span>{isProduction ? 'Producción' : 'Desarrollo'}</span>
+      <strong>API URL (cliente):</strong> <span>{apiUrl}</span>
+      <strong>PUBLIC_API_URL:</strong> <span>{publicApiUrl || 'No definido'}</span>
+      <strong>URL actual:</strong> <span id="currentUrl"></span>
+      <strong>Origen (Origin):</strong> <span id="currentOrigin"></span>
+    </div>
+  </div>
+  
+  <div class="card">
+    <h2>Pruebas de API</h2>
+    <button id="testGet">Probar GET /api/config</button>
+    <button id="testPut">Probar PUT /api/config (toggle mantenimiento)</button>
+    <button id="testDirectFetch">Probar fetch directo</button>
+    <div id="result"></div>
+  </div>
+  
+  <script>
+    // Mostrar información de la URL actual
+    document.getElementById('currentUrl').textContent = window.location.href;
+    document.getElementById('currentOrigin').textContent = window.location.origin;
+    
+    // Función para mostrar resultados
+    function showResult(data, isError = false) {
+      const resultDiv = document.getElementById('result');
+      if (!resultDiv) return;
+      
+      resultDiv.innerHTML = '';
+      
+      const container = document.createElement('div');
+      container.className = isError ? 'error' : 'success';
+      
+      if (isError) {
+        container.textContent = `Error: ${data}`;
+      } else {
+        container.textContent = 'Respuesta exitosa:';
+        const pre = document.createElement('pre');
+        pre.textContent = JSON.stringify(data, null, 2);
+        container.appendChild(pre);
+      }
+      
+      resultDiv.appendChild(container);
+    }
+    
+    // Probar GET /api/config
+    const testGetBtn = document.getElementById('testGet');
+    if (testGetBtn) {
+      testGetBtn.addEventListener('click', async () => {
+        try {
+          console.log('Realizando solicitud GET a: /api/config');
+          const response = await fetch('/api/config', {
+            headers: {
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
+              'Pragma': 'no-cache'
+            }
+          });
+          
+          console.log('Respuesta recibida:', {
+            status: response.status,
+            statusText: response.statusText,
+            headers: Object.fromEntries([...response.headers.entries()])
+          });
+          
+          if (!response.ok) {
+            throw new Error(`${response.status} ${response.statusText}`);
+          }
+          
+          const data = await response.json();
+          showResult(data);
+        } catch (error) {
+          console.error('Error en la solicitud GET:', error);
+          showResult(error instanceof Error ? error.message : String(error), true);
+        }
+      });
+    }
+    
+    // Probar PUT /api/config (toggle mantenimiento)
+    const testPutBtn = document.getElementById('testPut');
+    if (testPutBtn) {
+      testPutBtn.addEventListener('click', async () => {
+        try {
+          // Primero obtenemos la configuración actual
+          console.log('Obteniendo configuración actual...');
+          const getResponse = await fetch('/api/config', {
+            headers: {
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
+              'Pragma': 'no-cache'
+            }
+          });
+          
+          if (!getResponse.ok) {
+            throw new Error(`${getResponse.status} ${getResponse.statusText}`);
+          }
+          
+          const config = await getResponse.json();
+          
+          // Invertimos el estado del modo mantenimiento
+          const updatedConfig = {
+            ...config,
+            modoMantenimiento: !config.modoMantenimiento
+          };
+          
+          // Obtenemos el token (si existe)
+          const token = localStorage.getItem('token');
+          if (!token) {
+            throw new Error('No hay token de autenticación. Inicia sesión primero.');
+          }
+          
+          // Enviamos la actualización
+          console.log('Enviando actualización:', updatedConfig);
+          const putResponse = await fetch('/api/config', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
+              'Pragma': 'no-cache'
+            },
+            body: JSON.stringify(updatedConfig)
+          });
+          
+          console.log('Respuesta recibida:', {
+            status: putResponse.status,
+            statusText: putResponse.statusText,
+            headers: Object.fromEntries([...putResponse.headers.entries()])
+          });
+          
+          if (!putResponse.ok) {
+            throw new Error(`${putResponse.status} ${putResponse.statusText}`);
+          }
+          
+          const result = await putResponse.json();
+          showResult({
+            message: `Modo mantenimiento cambiado a: ${updatedConfig.modoMantenimiento}`,
+            result
+          });
+        } catch (error) {
+          console.error('Error en la solicitud PUT:', error);
+          showResult(error instanceof Error ? error.message : String(error), true);
+        }
+      });
+    }
+    
+    // Probar fetch directo
+    const testDirectFetchBtn = document.getElementById('testDirectFetch');
+    if (testDirectFetchBtn) {
+      testDirectFetchBtn.addEventListener('click', async () => {
+        try {
+          const urls = [
+            '/api/config',
+            'http://localhost:5000/api/config'
+          ];
+          
+          const results = {};
+          
+          for (const url of urls) {
+            try {
+              console.log(`Probando fetch a: ${url}`);
+              const response = await fetch(url, {
+                headers: {
+                  'Cache-Control': 'no-cache, no-store, must-revalidate',
+                  'Pragma': 'no-cache'
+                }
+              });
+              
+              results[url] = {
+                success: response.ok,
+                status: response.status,
+                statusText: response.statusText
+              };
+              
+              if (response.ok) {
+                results[url].data = await response.json();
+              }
+            } catch (fetchError) {
+              results[url] = {
+                success: false,
+                error: fetchError instanceof Error ? fetchError.message : String(fetchError)
+              };
+            }
+          }
+          
+          showResult(results);
+        } catch (error) {
+          console.error('Error en las pruebas de fetch:', error);
+          showResult(error instanceof Error ? error.message : String(error), true);
+        }
+      });
+    }
+  </script>
+</body>
+</html> 

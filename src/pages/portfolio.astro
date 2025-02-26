@@ -1,0 +1,104 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+const projects = [
+  {
+    title: 'E-commerce Moderno',
+    description: 'Tienda en línea con carrito de compras, pagos y panel de administración.',
+    image: '/images/project1.jpg',
+    tags: ['React', 'Node.js', 'MongoDB'],
+    link: '#'
+  },
+  {
+    title: 'App de Gestión',
+    description: 'Sistema de gestión de tareas y proyectos para equipos.',
+    image: '/images/project2.jpg',
+    tags: ['Vue.js', 'Express', 'PostgreSQL'],
+    link: '#'
+  },
+  {
+    title: 'Portfolio Personal',
+    description: 'Sitio web personal con modo oscuro y animaciones.',
+    image: '/images/project3.jpg',
+    tags: ['Astro', 'TailwindCSS', 'GSAP'],
+    link: '#'
+  }
+];
+---
+
+<MainLayout title="Portfolio - Mis Proyectos" description="Explora mis proyectos más recientes">
+  <section class="py-20">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-center">Mi Portfolio</h1>
+      
+      {projects.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map((project, index) => (
+            <div class="project-card bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
+              <div class="aspect-video bg-gray-200 dark:bg-gray-700">
+                <img 
+                  src={project.image} 
+                  alt={project.title}
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">{project.title}</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  {project.tags.map(tag => (
+                    <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <a 
+                  href={project.link}
+                  class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
+                >
+                  Ver Proyecto
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-20">
+          <p class="text-xl text-gray-600 dark:text-gray-400">
+            Actualmente no hay proyectos disponibles.
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+</MainLayout>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Animación de las tarjetas de proyectos
+  gsap.from('.project-card', {
+    duration: 0.8,
+    y: 50,
+    opacity: 0,
+    stagger: 0.2,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: '.grid',
+      start: 'top 80%',
+    }
+  });
+
+  // Manejar errores de carga de imágenes
+  document.addEventListener('DOMContentLoaded', () => {
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      img.addEventListener('error', () => {
+        img.src = 'https://via.placeholder.com/600x400?text=Proyecto';
+      });
+    });
+  });
+</script> 

@@ -1,0 +1,77 @@
+# Dependencias
+node_modules/
+.pnp
+.pnp.js
+
+# Archivos de construcción
+dist/
+.output/
+.astro/
+.vercel/
+.netlify/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Archivos de entorno y configuración
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+.env.development
+.env.*
+!.env.example
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos del editor
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Archivos de caché
+.cache/
+.temp/
+.tmp/
+.eslintcache
+
+# Archivos de cobertura
+coverage/
+
+# Archivos específicos de MongoDB
+*.mongodb
+mongodb-data/
+dump/
+
+# Archivos de configuración con datos sensibles
+src/api/config.js
+src/api/config.ts
+config.js
+config.ts
+# Excepto el archivo de ejemplo
+!src/api/config.example.js
+!src/api/config.example.ts
+
+# Archivos temporales
+*.tmp
+*.bak
+*.swp

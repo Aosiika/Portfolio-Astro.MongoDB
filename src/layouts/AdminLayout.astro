@@ -1,0 +1,508 @@
+---
+import { isAuthenticated, getCurrentUser } from '../api/auth';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+// No hacemos redirección aquí, eso lo maneja el middleware
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} - Panel de Administración</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <style is:global>
+      /* Mejoras para el modo oscuro */
+      .dark input,
+      .dark textarea,
+      .dark select {
+        @apply bg-gray-700 border-gray-600 text-gray-200;
+      }
+      
+      .dark input::placeholder,
+      .dark textarea::placeholder {
+        @apply text-gray-400;
+      }
+      
+      .dark .min-w-0 {
+        @apply bg-gray-800 border-gray-700;
+      }
+      
+      /* Mejoras para los botones */
+      button {
+        @apply transition-all duration-200;
+      }
+      
+      /* Mejoras para las tarjetas */
+      .min-w-0 {
+        @apply transition-all duration-200;
+      }
+      
+      /* Mejoras para el sidebar activo */
+      .sidebar-active {
+        @apply bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-md;
+      }
+      
+      /* Animaciones suaves */
+      a, button, input, textarea, select {
+        @apply transition-all duration-200;
+      }
+      
+      /* Scrollbar personalizada */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      
+      ::-webkit-scrollbar-track {
+        @apply bg-gray-100 dark:bg-gray-800;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        @apply bg-gray-400 dark:bg-gray-500;
+      }
+      
+      /* Efecto de hover para tarjetas */
+      .hover-card {
+        @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+      }
+      
+      /* Efecto de hover para enlaces del sidebar */
+      .sidebar-link {
+        @apply relative overflow-hidden;
+      }
+      
+      .sidebar-link::after {
+        content: '';
+        @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300;
+      }
+      
+      .sidebar-link:hover::after {
+        @apply w-full;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-900">
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900" id="app-container">
+      <!-- Sidebar -->
+      <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0 shadow-lg rounded-r-xl">
+        <div class="py-6 text-gray-500 dark:text-gray-400">
+          <div class="px-6 mb-8">
+            <a class="flex items-center text-xl font-bold text-gray-800 dark:text-gray-200" href="/admin">
+              <div class="w-10 h-10 mr-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white">
+                <i class="fas fa-code"></i>
+              </div>
+              <span>Panel Admin</span>
+            </a>
+          </div>
+          
+          <div class="px-6 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Principal
+          </div>
+          
+          <ul class="mt-2">
+            <li class="relative px-6 py-2 mb-2">
+              <a
+                class="inline-flex items-center w-full px-3 py-2 text-sm font-medium transition-colors duration-150 rounded-lg sidebar-link hover:text-gray-800 dark:hover:text-gray-200"
+                href="/admin"
+              >
+                <svg
+                  class="w-5 h-5"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                  ></path>
+                </svg>
+                <span class="ml-4">Dashboard</span>
+              </a>
+            </li>
+          </ul>
+          
+          <div class="px-6 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Contenido
+          </div>
+          
+          <ul class="mt-2">
+            <li class="relative px-6 py-2 mb-2">
+              <a
+                class="inline-flex items-center w-full px-3 py-2 text-sm font-medium transition-colors duration-150 rounded-lg sidebar-link hover:text-gray-800 dark:hover:text-gray-200"
+                href="/admin/proyectos"
+              >
+                <svg
+                  class="w-5 h-5"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                  ></path>
+                </svg>
+                <span class="ml-4">Proyectos</span>
+              </a>
+            </li>
+            <li class="relative px-6 py-2 mb-2">
+              <a
+                class="inline-flex items-center w-full px-3 py-2 text-sm font-medium transition-colors duration-150 rounded-lg sidebar-link hover:text-gray-800 dark:hover:text-gray-200"
+                href="/admin/mensajes"
+              >
+                <svg
+                  class="w-5 h-5"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <span class="ml-4">Mensajes</span>
+              </a>
+            </li>
+          </ul>
+          
+          <div class="px-6 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Configuración
+          </div>
+          
+          <ul class="mt-2">
+            <li class="relative px-6 py-2 mb-2">
+              <a
+                class="inline-flex items-center w-full px-3 py-2 text-sm font-medium transition-colors duration-150 rounded-lg sidebar-link hover:text-gray-800 dark:hover:text-gray-200"
+                href="/admin/configuracion"
+              >
+                <svg
+                  class="w-5 h-5"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                  ></path>
+                  <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <span class="ml-4">Configuración</span>
+              </a>
+            </li>
+          </ul>
+          
+          <div class="px-6 mt-8">
+            <button
+              id="logoutButton"
+              class="flex items-center justify-between w-full px-4 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-gradient-to-r from-red-500 to-pink-600 border border-transparent rounded-lg active:bg-red-600 hover:shadow-md focus:outline-none"
+            >
+              Cerrar Sesión
+              <svg class="w-4 h-4 ml-2 -mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </aside>
+      
+      <!-- Mobile sidebar -->
+      <div class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center md:hidden hidden" id="mobile-menu">
+        <div class="w-full px-6 py-6 overflow-hidden bg-white rounded-t-xl dark:bg-gray-800 sm:rounded-xl sm:m-4 sm:max-w-xl">
+          <div class="flex justify-between items-center mb-4">
+            <a href="/admin" class="flex items-center text-xl font-bold text-gray-800 dark:text-gray-200">
+              <div class="w-8 h-8 mr-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white">
+                <i class="fas fa-code"></i>
+              </div>
+              <span>Panel Admin</span>
+            </a>
+            <button id="close-mobile-menu" class="p-2 rounded-md text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          
+          <div class="py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Principal
+          </div>
+          <ul class="mt-2 mb-4">
+            <li class="relative py-1">
+              <a href="/admin" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-150 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i class="fas fa-home w-5 h-5 mr-3"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+          </ul>
+          
+          <div class="py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Contenido
+          </div>
+          <ul class="mt-2 mb-4">
+            <li class="relative py-1">
+              <a href="/admin/proyectos" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-150 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i class="fas fa-project-diagram w-5 h-5 mr-3"></i>
+                <span>Proyectos</span>
+              </a>
+            </li>
+            <li class="relative py-1">
+              <a href="/admin/mensajes" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-150 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i class="fas fa-envelope w-5 h-5 mr-3"></i>
+                <span>Mensajes</span>
+              </a>
+            </li>
+          </ul>
+          
+          <div class="py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Configuración
+          </div>
+          <ul class="mt-2 mb-6">
+            <li class="relative py-1">
+              <a href="/admin/configuracion" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-150 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i class="fas fa-cog w-5 h-5 mr-3"></i>
+                <span>Configuración</span>
+              </a>
+            </li>
+          </ul>
+          
+          <div class="mt-6">
+            <button id="mobile-logout-btn" class="flex items-center justify-between w-full px-4 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-gradient-to-r from-red-500 to-pink-600 border border-transparent rounded-lg active:bg-red-600 hover:shadow-md focus:outline-none">
+              Cerrar Sesión
+              <i class="fas fa-sign-out-alt ml-2"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Main content -->
+      <div class="flex flex-col flex-1 w-full">
+        <!-- Header -->
+        <header class="z-10 py-3 bg-white shadow-md dark:bg-gray-800 rounded-b-xl mx-4 mt-2">
+          <div class="container flex items-center justify-between h-full px-6 mx-auto">
+            <!-- Mobile hamburger -->
+            <button class="p-2 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-blue hover:bg-gray-100 dark:hover:bg-gray-700" id="menu-toggle">
+              <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="flex items-center">
+              <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">{title}</h2>
+              <span class="ml-2 px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">v1.0</span>
+            </div>
+            
+            <ul class="flex items-center flex-shrink-0 space-x-4">
+              <!-- Notificaciones -->
+              <li class="relative">
+                <button class="p-2 rounded-full text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:shadow-outline-blue">
+                  <i class="fas fa-bell"></i>
+                </button>
+              </li>
+              
+              <!-- Theme toggler -->
+              <li class="flex">
+                <button id="theme-toggle" class="p-2 rounded-full text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:shadow-outline-blue">
+                  <i class="fas fa-moon dark:hidden"></i>
+                  <i class="fas fa-sun hidden dark:block"></i>
+                </button>
+              </li>
+              
+              <!-- Profile menu -->
+              <li class="relative">
+                <button id="profile-menu-button" class="align-middle rounded-full focus:shadow-outline-blue focus:outline-none">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white shadow-md">
+                      <span id="user-initials" class="text-sm font-medium">A</span>
+                    </div>
+                    <span id="user-name" class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-200 hidden sm:block">Admin</span>
+                    <i class="fas fa-chevron-down ml-1 text-xs text-gray-400"></i>
+                  </div>
+                </button>
+                <div id="profile-menu" class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-xl shadow-lg dark:border-gray-700 dark:text-gray-300 dark:bg-gray-800 hidden">
+                  <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+                    <p id="profile-name" class="text-sm font-semibold text-gray-700 dark:text-gray-200">Admin</p>
+                    <p id="profile-email" class="text-xs text-gray-500 dark:text-gray-400">admin@example.com</p>
+                  </div>
+                  <a href="/admin/configuracion" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 rounded-lg">
+                    <i class="fas fa-cog mr-2"></i> Configuración
+                  </a>
+                  <button id="profile-logout-btn" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:text-red-400 dark:hover:bg-gray-700 rounded-lg">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </header>
+        
+        <!-- Main content -->
+        <main class="h-full overflow-y-auto p-4">
+          <div class="container mx-auto">
+            <slot />
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      import { isAuthenticated, getCurrentUser, logout } from '../api/auth';
+
+      // Definimos la interfaz para el usuario
+      interface User {
+        name?: string;
+        email?: string;
+        isAdmin?: boolean;
+      }
+
+      // Función para redirigir al login
+      const redirectToLogin = () => {
+        console.log("Redirigiendo al login porque el usuario no está autenticado o no es admin");
+        window.location.href = '/admin/login';
+      };
+
+      // Función para inicializar la UI
+      const initializeUI = (user: User) => {
+        console.log("Inicializando UI con datos del usuario:", user);
+        const elements = {
+          userInitials: document.getElementById('user-initials'),
+          userName: document.getElementById('user-name'),
+          profileName: document.getElementById('profile-name'),
+          profileEmail: document.getElementById('profile-email'),
+        };
+        
+        if (elements.userInitials && user.name) {
+          elements.userInitials.textContent = user.name.charAt(0).toUpperCase();
+        }
+        
+        if (elements.userName && user.name) {
+          elements.userName.textContent = user.name;
+        }
+        
+        if (elements.profileName && user.name) {
+          elements.profileName.textContent = user.name;
+        }
+        
+        if (elements.profileEmail && user.email) {
+          elements.profileEmail.textContent = user.email;
+        }
+      };
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          console.log("Verificando autenticación...");
+          if (!isAuthenticated()) {
+            console.log("Usuario no autenticado");
+            return redirectToLogin();
+          }
+
+          const user = getCurrentUser();
+          console.log("Datos del usuario:", user);
+          
+          if (!user || !user.isAdmin) {
+            console.log("Usuario no es admin");
+            return redirectToLogin();
+          }
+
+          console.log("Usuario autenticado y es admin");
+          
+          // Inicializar UI con datos del usuario
+          initializeUI(user);
+
+          // Marcar el elemento activo en la barra lateral
+          const currentPath = window.location.pathname;
+          const sidebarLinks = document.querySelectorAll('aside a');
+          sidebarLinks.forEach(link => {
+            if (link instanceof HTMLAnchorElement) {
+              if (currentPath === link.pathname || 
+                  (link.pathname !== '/admin' && currentPath.startsWith(link.pathname))) {
+                link.classList.add('sidebar-active');
+              }
+            }
+          });
+
+          // Configurar eventos de logout
+          ['logoutButton', 'mobile-logout-btn', 'profile-logout-btn'].forEach(id => {
+            const button = document.getElementById(id);
+            if (button) {
+              button.addEventListener('click', logout);
+            }
+          });
+
+          // Configurar tema oscuro/claro
+          const themeToggle = document.getElementById('theme-toggle');
+          if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+              document.documentElement.classList.toggle('dark');
+              localStorage.setItem('theme', 
+                document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+              );
+            });
+          }
+
+          // Cargar tema guardado
+          if (localStorage.getItem('theme') === 'dark' || 
+              (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+
+          // Configurar menú móvil
+          const menuToggle = document.getElementById('menu-toggle');
+          const mobileMenu = document.getElementById('mobile-menu');
+          const closeMobileMenu = document.getElementById('close-mobile-menu');
+          
+          if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', () => {
+              mobileMenu.classList.toggle('hidden');
+            });
+          }
+          
+          if (closeMobileMenu && mobileMenu) {
+            closeMobileMenu.addEventListener('click', () => {
+              mobileMenu.classList.add('hidden');
+            });
+          }
+
+          // Configurar menú de perfil
+          const profileMenuButton = document.getElementById('profile-menu-button');
+          const profileMenu = document.getElementById('profile-menu');
+          
+          if (profileMenuButton && profileMenu) {
+            profileMenuButton.addEventListener('click', () => {
+              profileMenu.classList.toggle('hidden');
+            });
+            
+            document.addEventListener('click', (e) => {
+              const target = e.target as Node;
+              if (!profileMenuButton.contains(target) && !profileMenu.contains(target)) {
+                profileMenu.classList.add('hidden');
+              }
+            });
+          }
+        } catch (error) {
+          console.error("Error en la verificación de autenticación:", error);
+        }
+      });
+    </script>
+  </body>
+</html> 
