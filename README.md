@@ -20,6 +20,7 @@ Este proyecto es un portfolio personal moderno y dinámico construido con Astro 
 - 🔒 **Autenticación**: Sistema de login seguro con JWT
 - 📱 **Animaciones**: Experiencia de usuario mejorada con GSAP
 - 📝 **Formulario de Contacto**: Envío de mensajes desde la web
+- 🍪 **Gestión de Cookies**: Sistema completo de consentimiento de cookies con opciones personalizables
 
 ## Tecnologías Utilizadas
 
@@ -80,8 +81,10 @@ Este proyecto es un portfolio personal moderno y dinámico construido con Astro 
 ├── src/                # Código fuente del frontend
 │   ├── api/            # Configuración de la API
 │   ├── components/     # Componentes reutilizables
+│   │   └── CookieConsent.astro  # Componente de consentimiento de cookies
 │   ├── layouts/        # Layouts de Astro
 │   └── pages/          # Páginas de Astro
+│       └── politica-cookies.astro  # Página de política de cookies
 ├── backend/            # Código del servidor backend
 │   ├── config/         # Configuración del backend
 │   ├── controllers/    # Controladores de la API
@@ -90,6 +93,18 @@ Este proyecto es un portfolio personal moderno y dinámico construido con Astro 
 │   └── routes/         # Rutas de la API
 └── package.json        # Dependencias y scripts
 ```
+
+## Funcionalidades Destacadas
+
+### Sistema de Gestión de Cookies
+
+El proyecto incluye un sistema completo de gestión de consentimiento de cookies que cumple con las regulaciones de privacidad como el RGPD:
+
+- **Banner de Consentimiento**: Aparece en la primera visita y permite al usuario elegir qué tipos de cookies aceptar.
+- **Panel de Configuración**: Permite personalizar las preferencias de cookies en cualquier momento.
+- **Página de Política de Cookies**: Información detallada sobre el uso de cookies en el sitio.
+- **Persistencia**: Las preferencias del usuario se guardan en localStorage.
+- **Tipos de Cookies**: Gestión de cookies esenciales, analíticas y de marketing.
 
 ## Despliegue
 

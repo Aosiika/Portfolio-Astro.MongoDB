@@ -1,0 +1,241 @@
+<div id="cookieConsent" class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-lg z-50 transform translate-y-full transition-transform duration-500 ease-in-out">
+  <div class="container mx-auto px-4 py-4">
+    <div class="flex flex-col md:flex-row items-center justify-between">
+      <div class="mb-4 md:mb-0 md:mr-8">
+        <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">🍪 Política de Cookies</h3>
+        <p class="text-gray-600 dark:text-gray-300 text-sm">
+          Este sitio utiliza cookies para mejorar tu experiencia de navegación. Puedes aceptarlas o configurar tus preferencias. 
+          <a href="/politica-cookies" class="text-blue-600 dark:text-blue-400 hover:underline">Más información</a>
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <button id="acceptCookies" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors">
+          Aceptar todas
+        </button>
+        <button id="declineCookies" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+          Solo esenciales
+        </button>
+        <button id="configureCookies" class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+          Configurar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="cookieSettings" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Configuración de Cookies</h3>
+        <button id="closeSettings" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        Personaliza tus preferencias de cookies. Las cookies esenciales siempre estarán activas ya que son necesarias para el funcionamiento del sitio.
+      </p>
+      
+      <div class="space-y-4 mb-6">
+        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+          <div>
+            <h4 class="font-medium text-gray-900 dark:text-white">Cookies esenciales</h4>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Necesarias para el funcionamiento básico del sitio</p>
+          </div>
+          <div class="relative">
+            <input type="checkbox" id="essentialCookies" class="sr-only" checked disabled>
+            <label for="essentialCookies" class="block w-12 h-6 bg-gray-400 rounded-full cursor-not-allowed">
+              <span class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200 transform translate-x-6"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+          <div>
+            <h4 class="font-medium text-gray-900 dark:text-white">Cookies analíticas</h4>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Nos ayudan a entender cómo interactúas con el sitio</p>
+          </div>
+          <div class="relative">
+            <input type="checkbox" id="analyticsCookies" class="sr-only">
+            <label for="analyticsCookies" class="block w-12 h-6 bg-gray-400 rounded-full cursor-pointer">
+              <span class="cookie-toggle absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200 transform"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+          <div>
+            <h4 class="font-medium text-gray-900 dark:text-white">Cookies de marketing</h4>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Utilizadas para mostrarte anuncios relevantes</p>
+          </div>
+          <div class="relative">
+            <input type="checkbox" id="marketingCookies" class="sr-only">
+            <label for="marketingCookies" class="block w-12 h-6 bg-gray-400 rounded-full cursor-pointer">
+              <span class="cookie-toggle absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200 transform"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-end space-x-3">
+        <button id="saveSettings" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors">
+          Guardar preferencias
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Función para mostrar el banner de cookies
+  function showCookieBanner() {
+    const cookieConsent = document.getElementById('cookieConsent');
+    if (cookieConsent && !localStorage.getItem('cookieConsent')) {
+      // Esperar un momento antes de mostrar el banner
+      setTimeout(() => {
+        cookieConsent.classList.remove('translate-y-full');
+      }, 1000);
+    }
+  }
+
+  // Función para ocultar el banner de cookies
+  function hideCookieBanner() {
+    const cookieConsent = document.getElementById('cookieConsent');
+    if (cookieConsent) {
+      cookieConsent.classList.add('translate-y-full');
+    }
+  }
+
+  // Función para guardar las preferencias de cookies
+  function saveCookiePreferences(preferences) {
+    localStorage.setItem('cookieConsent', 'true');
+    localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+    hideCookieBanner();
+  }
+
+  // Inicializar los toggles de cookies según las preferencias guardadas
+  function initCookieToggles() {
+    const savedPreferences = localStorage.getItem('cookiePreferences');
+    if (savedPreferences) {
+      const preferences = JSON.parse(savedPreferences);
+      
+      const analyticsCookies = document.getElementById('analyticsCookies');
+      const marketingCookies = document.getElementById('marketingCookies');
+      
+      if (analyticsCookies) {
+        analyticsCookies.checked = preferences.analytics;
+        updateToggleUI(analyticsCookies);
+      }
+      
+      if (marketingCookies) {
+        marketingCookies.checked = preferences.marketing;
+        updateToggleUI(marketingCookies);
+      }
+    }
+  }
+
+  // Actualizar la UI de los toggles
+  function updateToggleUI(checkbox) {
+    const toggle = checkbox.nextElementSibling.querySelector('.cookie-toggle');
+    if (toggle) {
+      if (checkbox.checked) {
+        toggle.classList.add('translate-x-6');
+        checkbox.nextElementSibling.classList.remove('bg-gray-400');
+        checkbox.nextElementSibling.classList.add('bg-blue-600');
+      } else {
+        toggle.classList.remove('translate-x-6');
+        checkbox.nextElementSibling.classList.remove('bg-blue-600');
+        checkbox.nextElementSibling.classList.add('bg-gray-400');
+      }
+    }
+  }
+
+  // Mostrar el panel de configuración
+  function showSettings() {
+    const cookieSettings = document.getElementById('cookieSettings');
+    if (cookieSettings) {
+      cookieSettings.classList.remove('hidden');
+      initCookieToggles();
+    }
+  }
+
+  // Ocultar el panel de configuración
+  function hideSettings() {
+    const cookieSettings = document.getElementById('cookieSettings');
+    if (cookieSettings) {
+      cookieSettings.classList.add('hidden');
+    }
+  }
+
+  // Configurar eventos cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', () => {
+    // Mostrar el banner si no hay consentimiento guardado
+    showCookieBanner();
+    
+    // Botón de aceptar todas las cookies
+    const acceptButton = document.getElementById('acceptCookies');
+    if (acceptButton) {
+      acceptButton.addEventListener('click', () => {
+        saveCookiePreferences({
+          essential: true,
+          analytics: true,
+          marketing: true
+        });
+      });
+    }
+    
+    // Botón de rechazar cookies no esenciales
+    const declineButton = document.getElementById('declineCookies');
+    if (declineButton) {
+      declineButton.addEventListener('click', () => {
+        saveCookiePreferences({
+          essential: true,
+          analytics: false,
+          marketing: false
+        });
+      });
+    }
+    
+    // Botón de configurar cookies
+    const configureButton = document.getElementById('configureCookies');
+    if (configureButton) {
+      configureButton.addEventListener('click', showSettings);
+    }
+    
+    // Botón de cerrar configuración
+    const closeButton = document.getElementById('closeSettings');
+    if (closeButton) {
+      closeButton.addEventListener('click', hideSettings);
+    }
+    
+    // Botón de guardar configuración
+    const saveButton = document.getElementById('saveSettings');
+    if (saveButton) {
+      saveButton.addEventListener('click', () => {
+        const analyticsCookies = document.getElementById('analyticsCookies');
+        const marketingCookies = document.getElementById('marketingCookies');
+        
+        saveCookiePreferences({
+          essential: true,
+          analytics: analyticsCookies ? analyticsCookies.checked : false,
+          marketing: marketingCookies ? marketingCookies.checked : false
+        });
+        
+        hideSettings();
+      });
+    }
+    
+    // Configurar los toggles de cookies
+    const toggles = document.querySelectorAll('input[type="checkbox"]');
+    toggles.forEach(toggle => {
+      if (!toggle.disabled) {
+        toggle.addEventListener('change', () => {
+          updateToggleUI(toggle);
+        });
+      }
+    });
+  });
+</script> 

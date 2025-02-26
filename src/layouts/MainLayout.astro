@@ -2,6 +2,7 @@
 interface Props {
   title: string;
   description?: string;
+  simpleNav?: boolean;
 }
 
 interface Config {
@@ -10,6 +11,8 @@ interface Config {
   youtubeUrl?: string;
   twitterUrl?: string;
 }
+
+import CookieConsent from '../components/CookieConsent.astro';
 
 const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:5000';
 
@@ -26,7 +29,7 @@ try {
   console.error('Error al cargar la configuración:', error);
 }
 
-const { title, description = "Portfolio personal" } = Astro.props;
+const { title, description = "Portfolio personal", simpleNav = false } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -46,47 +49,66 @@ const { title, description = "Portfolio personal" } = Astro.props;
     <header class="fixed w-full top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-sm transition-all duration-300">
       <nav class="container mx-auto px-4 py-4">
         <div class="flex justify-between items-center">
-          <a href="#inicio" class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent transition-all duration-300 hover:scale-105" id="navbarTitle">{config.navbarTitle || "Portfolio"}</a>
-          <div class="hidden md:flex space-x-8 items-center">
-            <a href="#inicio" class="nav-link relative hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2">
-              Inicio
-              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+          {simpleNav ? (
+            <a href="/" class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent transition-all duration-300 hover:scale-105 flex items-center">
+              <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+              </svg>
+              Volver al Inicio
             </a>
-            <a href="#sobre-mi" class="nav-link relative hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2">
-              Sobre Mí
-              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-            <a href="#portfolio" class="nav-link relative hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2">
-              Portfolio
-              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-            <a href="#contacto" class="nav-link relative hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2">
-              Contacto
-              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-            <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110">
-              <svg class="w-6 h-6 dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+          ) : (
+            <a href="#inicio" class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent transition-all duration-300 hover:scale-105" id="navbarTitle">{config.navbarTitle || "Portfolio"}</a>
+          )}
+          
+          {!simpleNav && (
+            <div class="hidden md:flex space-x-8 items-center">
+              <a href="#inicio" class="nav-link relative hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2">
+                Inicio
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+              </a>
+              <a href="#sobre-mi" class="nav-link relative hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2">
+                Sobre Mí
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+              </a>
+              <a href="#portfolio" class="nav-link relative hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2">
+                Portfolio
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+              </a>
+              <a href="#contacto" class="nav-link relative hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2">
+                Contacto
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            </div>
+          )}
+          
+          <div class="flex items-center">
+            <button id="themeToggle" class="flex items-center hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <span class="mr-2 dark:hidden">Modo Oscuro</span>
+              <span class="mr-2 hidden dark:inline">Modo Claro</span>
+              <svg class="w-5 h-5 dark:hidden" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
               </svg>
-              <svg class="w-6 h-6 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+              <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path>
               </svg>
             </button>
+            
+            {!simpleNav && (
+              <button id="mobileMenuButton" class="ml-4 md:hidden focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+              </button>
+            )}
           </div>
-          <!-- Menú móvil (hamburguesa) -->
-          <button class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300" id="mobileMenuButton">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
         </div>
-        <!-- Menú móvil desplegable -->
-        <div class="md:hidden hidden transform transition-all duration-300 ease-in-out" id="mobileMenu">
-          <div class="flex flex-col space-y-4 pt-4 pb-3">
-            <a href="#inicio" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors pl-2 border-l-2 border-transparent hover:border-blue-600 dark:hover:border-blue-400">Inicio</a>
-            <a href="#sobre-mi" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors pl-2 border-l-2 border-transparent hover:border-blue-600 dark:hover:border-blue-400">Sobre Mí</a>
-            <a href="#portfolio" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors pl-2 border-l-2 border-transparent hover:border-blue-600 dark:hover:border-blue-400">Portfolio</a>
-            <a href="#contacto" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors pl-2 border-l-2 border-transparent hover:border-blue-600 dark:hover:border-blue-400">Contacto</a>
+        
+        {!simpleNav && (
+          <div id="mobileMenu" class="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-900 shadow-lg rounded-b-xl mt-1 py-4 px-6 space-y-4 transition-all duration-300 transform opacity-0 -translate-y-10 hidden">
+            <a href="#inicio" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Inicio</a>
+            <a href="#sobre-mi" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Sobre Mí</a>
+            <a href="#portfolio" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Portfolio</a>
+            <a href="#contacto" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contacto</a>
             <button id="mobileThemeToggle" class="flex items-center hover:text-blue-600 dark:hover:text-blue-400 transition-colors pl-2 border-l-2 border-transparent hover:border-blue-600 dark:hover:border-blue-400">
               <span class="mr-2 dark:hidden">Modo Oscuro</span>
               <span class="mr-2 hidden dark:inline">Modo Claro</span>
@@ -98,7 +120,7 @@ const { title, description = "Portfolio personal" } = Astro.props;
               </svg>
             </button>
           </div>
-        </div>
+        )}
       </nav>
     </header>
 
@@ -131,6 +153,9 @@ const { title, description = "Portfolio personal" } = Astro.props;
       </div>
     </footer>
 
+    <!-- Componente de consentimiento de cookies -->
+    <CookieConsent />
+
     <script define:vars={{ API_URL }}>
       // Tema oscuro/claro
       const theme = localStorage.getItem('theme') || 
@@ -147,33 +172,7 @@ const { title, description = "Portfolio personal" } = Astro.props;
       document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
       document.getElementById('mobileThemeToggle')?.addEventListener('click', toggleTheme);
 
-      // Función para actualizar el título del navbar
-      async function updateNavbarTitle() {
-        try {
-          const timestamp = new Date().getTime();
-          const response = await fetch(`${API_URL}/config?t=${timestamp}`, {
-            headers: {
-              'Accept': 'application/json',
-              'Cache-Control': 'no-cache, no-store, must-revalidate',
-              'Pragma': 'no-cache',
-              'Expires': '0'
-            }
-          });
-          
-          if (!response.ok) {
-            throw new Error(`Error al obtener la configuración: ${response.status}`);
-          }
-          
-          const data = await response.json();
-          const navbarTitle = document.getElementById('navbarTitle');
-          
-          if (navbarTitle && data.navbarTitle) {
-            navbarTitle.textContent = data.navbarTitle;
-          }
-        } catch (error) {
-          console.error('Error al actualizar el título:', error);
-        }
-      }
+
 
       // Actualizar título al cargar la página
       document.addEventListener('DOMContentLoaded', updateNavbarTitle);
