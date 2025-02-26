@@ -106,6 +106,53 @@ El proyecto incluye un sistema completo de gestión de consentimiento de cookies
 - **Persistencia**: Las preferencias del usuario se guardan en localStorage.
 - **Tipos de Cookies**: Gestión de cookies esenciales, analíticas y de marketing.
 
+### Sistema de Proyectos
+
+El portfolio cuenta con un sistema completo para mostrar y gestionar proyectos:
+
+- **Listado de Proyectos**: Página que muestra todos los proyectos con filtrado por categorías.
+- **Página de Detalle**: Vista individual para cada proyecto con información completa.
+- **Panel de Administración**: Interfaz para crear, editar y eliminar proyectos.
+- **Campos Personalizables**: Título, descripción, contenido, imágenes, tecnologías, URLs de demo y código fuente.
+- **Proyectos Destacados**: Posibilidad de marcar proyectos como destacados para mostrarlos en la página principal.
+
+## Historial de Cambios
+
+### Versión 1.2.0 (Actual)
+- **Nuevas Funcionalidades**:
+  - Sistema completo de gestión de consentimiento de cookies
+  - Página detallada de política de cookies
+  - Página de perfil de usuario en el panel de administración
+  - Página de detalle individual para cada proyecto
+
+- **Mejoras**:
+  - Corrección del error en la creación y edición de proyectos (generación automática de slug)
+  - Soporte para URLs de demo y código fuente en proyectos
+  - Optimización del middleware de mantenimiento
+  - Mejora en la visualización de proyectos en el portfolio
+
+- **Correcciones**:
+  - Solución al problema de validación de campos requeridos en proyectos
+  - Correcciones en la configuración del servidor y proxy
+  - Mejoras en el sistema de autenticación
+
+### Versión 1.1.0
+- **Nuevas Funcionalidades**:
+  - Modo mantenimiento activable desde el panel de administración
+  - Sistema de mensajes de contacto
+  - Soporte para tema claro/oscuro
+
+- **Mejoras**:
+  - Diseño responsive mejorado
+  - Animaciones con GSAP para mejor experiencia de usuario
+  - Panel de administración con más opciones de configuración
+
+### Versión 1.0.0
+- Lanzamiento inicial del proyecto
+- Funcionalidades básicas de portfolio
+- Panel de administración con autenticación
+- Sistema de proyectos básico
+
 ## Despliegue
 
 ### Frontend (Astro)
