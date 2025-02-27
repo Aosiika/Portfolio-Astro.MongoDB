@@ -22,7 +22,7 @@ try {
     const projects = data.projects || [];
     
     // Encontrar el proyecto que coincide con el slug
-    project = projects.find(p => p.slug === slug);
+    project = projects.find((p: any) => p.slug === slug);
     
     if (!project) {
       error = 'Proyecto no encontrado';
