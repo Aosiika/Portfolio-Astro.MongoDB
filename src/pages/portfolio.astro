@@ -1,12 +1,15 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-// Modificar la importación para evitar el error de resolución
-const API_URL = import.meta.env.PUBLIC_API_URL || '/api';
+
+// Definir la URL de la API
+const apiUrl = typeof window === 'undefined' 
+  ? 'http://localhost:5000/api'
+  : new URL('/api', Astro.url.origin).toString();
 
 // Obtener todos los proyectos desde el backend
 let projects = [];
 try {
-  const response = await fetch(`${API_URL}/projects`, {
+  const response = await fetch(`${apiUrl}/projects`, {
     headers: {
       'Cache-Control': 'no-cache, no-store, must-revalidate',
       'Pragma': 'no-cache'
@@ -63,8 +66,7 @@ try {
                     <a 
                       href={project.demoUrl}
                       target="_blank"
-                      rel="noopener noreferrer"
-                      class="inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+                      class="inline-block bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-6 py-2 rounded-lg transition-colors"
                     >
                       Demo
                     </a>

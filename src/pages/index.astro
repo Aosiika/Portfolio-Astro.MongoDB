@@ -1,24 +1,53 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-// Modificar la importación para evitar el error de resolución
-const API_URL = import.meta.env.PUBLIC_API_URL || '/api';
+import { getApiUrl } from '../api/config';
+
+// Definir valores predeterminados en caso de error
+const defaultConfig = {
+  siteName: "Portfolio Personal",
+  siteDescription: "Mi portfolio de proyectos y habilidades",
+  navbarTitle: "Portfolio",
+  developerName: "Desarrollador",
+  developerBio: "Desarrollador web especializado en crear experiencias digitales únicas y funcionales.",
+  skills: "HTML,CSS,JavaScript,React,Node.js",
+  modoMantenimiento: false,
+  mensajeMantenimiento: "Estamos realizando mejoras. Volveremos pronto."
+};
 
 // Obtener la configuración del backend
-const response = await fetch(`${API_URL}/config`, {
-  headers: {
-    'Cache-Control': 'no-cache, no-store, must-revalidate',
-    'Pragma': 'no-cache'
+let config = defaultConfig;
+try {
+  const configUrl = typeof window === 'undefined' 
+    ? 'http://localhost:5000/api/config'
+    : new URL('/api/config', Astro.url.origin).toString();
+    
+  console.log('URL de configuración:', configUrl);
+  
+  const response = await fetch(configUrl, {
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache'
+    }
+  });
+  
+  if (response.ok) {
+    config = await response.json();
+    console.log('Configuración cargada en index:', config);
+  } else {
+    console.error('Error al obtener la configuración:', response.status, response.statusText);
   }
-});
-const config = await response.json();
-
-// Log para depuración
-console.log('Configuración cargada en index:', config);
+} catch (error) {
+  console.error('Error al cargar la configuración:', error);
+}
 
 // Obtener proyectos destacados desde el backend
 let featuredProjects = [];
 try {
-  const projectsResponse = await fetch(`${API_URL}/projects/featured`, {
+  const projectsUrl = typeof window === 'undefined' 
+    ? 'http://localhost:5000/api/projects/featured'
+    : new URL('/api/projects/featured', Astro.url.origin).toString();
+    
+  const projectsResponse = await fetch(projectsUrl, {
     headers: {
       'Cache-Control': 'no-cache, no-store, must-revalidate',
       'Pragma': 'no-cache'

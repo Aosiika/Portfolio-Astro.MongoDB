@@ -18,7 +18,7 @@ export const onRequest = defineMiddleware(async ({ request }, next) => {
     // Construir URL correcta para el servidor
     const configUrl = typeof window === 'undefined' 
       ? 'http://localhost:5000/api/config'
-      : '/api/config';
+      : new URL('/api/config', url.origin).toString();
       
     console.log('URL de configuración:', configUrl);
     
