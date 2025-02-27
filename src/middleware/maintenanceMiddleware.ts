@@ -1,5 +1,6 @@
 import { defineMiddleware } from 'astro:middleware';
-import { API_URL } from '../api/config';
+// Modificar la importación para evitar el error de resolución
+const API_URL = import.meta.env.PUBLIC_API_URL || '/api';
 
 // Define el middleware
 export const onRequest = defineMiddleware(async ({ request }, next) => {
