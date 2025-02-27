@@ -1,4 +1,7 @@
-import { API_URL } from './config';
+// Definir API_URL directamente en lugar de importarlo
+const API_URL = typeof window !== 'undefined' 
+  ? (import.meta.env.PUBLIC_API_URL || '/api') 
+  : 'http://localhost:5000/api';
 
 // Tipos de usuario
 interface User {
