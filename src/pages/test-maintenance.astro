@@ -1,5 +1,6 @@
 ---
-import { API_URL } from '../api/config';
+// Modificar la importación para evitar el error de resolución
+const API_URL = import.meta.env.PUBLIC_API_URL || '/api';
 
 // Obtener la configuración actual
 let config;
