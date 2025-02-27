@@ -55,14 +55,8 @@ router.get('/', (req, res) => {
 });
 
 // Actualizar la configuración
-router.put('/', (req, res) => {
+router.put('/', protect, admin, (req, res) => {
   try {
-    // Verificar autenticación (simulado)
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ error: 'No autorizado' });
-    }
-    
     // Obtener la configuración actual
     const configData = fs.readFileSync(CONFIG_FILE, 'utf8');
     const currentConfig = JSON.parse(configData);
