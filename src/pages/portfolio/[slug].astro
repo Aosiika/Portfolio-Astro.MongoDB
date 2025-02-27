@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import { API_URL } from '../../api/config';
+// Modificar la importación para evitar el error de resolución
+const API_URL = import.meta.env.PUBLIC_API_URL || '/api';
 
 // Obtener el slug del proyecto de los parámetros de la URL
 const { slug } = Astro.params;
